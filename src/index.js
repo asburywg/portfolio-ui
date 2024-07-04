@@ -6,6 +6,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // renders components twice to detect errors
   <React.StrictMode>
     <App /> 
   </React.StrictMode>

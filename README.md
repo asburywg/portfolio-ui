@@ -1,3 +1,11 @@
+## Cache
+
+[axios-cache-interceptor](https://axios-cache-interceptor.js.org/guide/getting-started)
+
+GET `/transactions` --> `"OPTIONS /transactions?page=1&per_page=10 HTTP/1.1" 308 -`
+GET `/transactions/` works
+
+
 [StrictMode](https://stackoverflow.com/questions/61254372/my-react-component-is-rendering-twice-because-of-strict-mode/61897567#61897567)
 
 >>> StrictMode renders components twice (on dev but not production) in order to detect any problems with your code and warn you about them (which can be quite useful). If you have StrictMode enabled in your app but don't remember enabling it, it might be because you used create-react-app or similar to create your app initially, which automatically enables StrictMode by default.

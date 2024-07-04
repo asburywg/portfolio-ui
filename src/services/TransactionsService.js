@@ -4,7 +4,7 @@ class TransactionService {
 
   async getTransactions(page = 1, perPage = 10) {
     try {
-      const response = await api.get('/transactions', {
+      const response = await api.get('/transactions/', {
         params: {
           page: page,
           per_page: perPage,
@@ -19,4 +19,5 @@ class TransactionService {
 
 }
 
-export default new TransactionService();
+const transactionServiceInstance = new TransactionService();
+export default transactionServiceInstance;
