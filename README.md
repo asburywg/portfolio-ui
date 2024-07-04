@@ -2,6 +2,7 @@
 ## Components
 - [icons](https://lucide.dev/icons/)
 - [sidebar](https://github.com/constgenius/sidebarReact/tree/main)
+- [tabs](https://github.com/cassidoo/react-tailwind-tabs/blob/main/TailwindTabs.jsx)
 
 
 ## Setup
