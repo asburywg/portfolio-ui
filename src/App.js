@@ -1,4 +1,3 @@
-import './index.css';
 import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
 import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
@@ -22,7 +21,7 @@ function App() {
           return <NotImplementedComponent />;
     }
   };
-  
+
   return (
     <>
       <div className="flex">
