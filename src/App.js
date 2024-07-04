@@ -1,13 +1,11 @@
 import './index.css';
-import Sidebar, { SidebarItem, SidebarGroup } from "./components/Sidebar"
+import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
 import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
+import HomePage from "./components/Home"
 
 // https://lucide.dev/icons/
 
-const HomeComponent = () => <div>Home Page</div>;
-const FileSummaryComponent = () => <div>File Summary Table</div>;
-const SettingsComponent = () => <div>Settings Content</div>;
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
@@ -18,11 +16,7 @@ function App() {
   const renderContent = () => {
     switch (activeItem) {
         case "Home":
-            return <HomeComponent />;
-        case "File Summary":
-            return <FileSummaryComponent />;
-        case "Settings":
-            return <SettingsComponent />;
+            return <HomePage />;
         default:
             return <NotImplementedComponent />;
     }
