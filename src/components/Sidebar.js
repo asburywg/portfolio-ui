@@ -5,7 +5,7 @@ const SidebarContext = createContext();
 
 // https://github.com/constgenius/sidebarReact/tree/main
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ children, setActiveItem, activeItem }) {
     const [expanded, setExpanded] = useState(true)
     return (
         <>
@@ -20,7 +20,7 @@ export default function Sidebar({ children }) {
                         <span className={`font-bold overflow-hidden ${expanded ? "w-44 ml-3" : "w-0"}`}>Portfolio UI</span>
                     </div>
 
-                   <SidebarContext.Provider value={{ expanded }}>
+                   <SidebarContext.Provider value={{ expanded, setActiveItem, activeItem }}>
                         <ul className="flex-1 px-3">{children}</ul>
                     </SidebarContext.Provider>
 
@@ -40,10 +40,12 @@ export default function Sidebar({ children }) {
     )
 }
 
-export function SidebarItem({ icon, text, active }) {
-    const { expanded } = useContext(SidebarContext)
+export function SidebarItem({ icon, text }) {
+    const { expanded, activeItem, setActiveItem } = useContext(SidebarContext);
     return (
-        <li className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${active ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}`}>
+        <li className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${activeItem === text ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800" : "hover:bg-indigo-50 text-gray-600"}`}
+            onClick={() => setActiveItem(text)}
+        >
             {icon}
             <span className={`overflow-hidden transition-all ${expanded ? "w-44 ml-3" : "w-0"}`}>{text}</span>
 
