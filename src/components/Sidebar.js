@@ -17,7 +17,7 @@ export default function Sidebar({ children, setActiveItem, activeItem }) {
                         <button onClick={() => setExpanded((curr) => !curr)} className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100">
                             {expanded ? <ChevronFirst /> : <ChevronLast />}
                         </button>
-                        <span className={`font-bold overflow-hidden ${expanded ? "w-44 ml-3" : "w-0"}`}>Portfolio UI</span>
+                        {/* <span className={`font-bold overflow-hidden ${expanded ? "w-44 ml-3" : "w-0"}`}>Portfolio UI</span> */}
                     </div>
 
                    <SidebarContext.Provider value={{ expanded, setActiveItem, activeItem }}>
@@ -38,6 +38,22 @@ export default function Sidebar({ children, setActiveItem, activeItem }) {
             </aside>
         </>
     )
+}
+
+export function SidebarGroup({ title, children }) {
+    const { expanded } = useContext(SidebarContext);
+
+    return (
+        <div>
+            {expanded && (
+                <div className={`mt-4 px-2 rounded-m font-bold`}>
+                    {title}
+                </div>
+            )}
+            <hr className="my-2" />
+            {children}
+        </div>
+    );
 }
 
 export function SidebarItem({ icon, text }) {

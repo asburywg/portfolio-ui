@@ -1,5 +1,5 @@
 import './index.css';
-import Sidebar, { SidebarItem } from "./components/Sidebar"
+import Sidebar, { SidebarItem, SidebarGroup } from "./components/Sidebar"
 import { LayoutDashboard, Home, Layers, Flag, Calendar, LifeBuoy, Settings } from "lucide-react";
 import { useState } from "react";
 
@@ -40,16 +40,19 @@ function App() {
   return (
     <>
       <div className="flex">
-        <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
-          <SidebarItem icon={<Home size={20} />} text="Home" />
-          <SidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" />
-          <SidebarItem icon={<Calendar size={20} />} text="Calendar" />
-          <SidebarItem icon={<Layers size={20} />} text="Tasks" />
-          <SidebarItem icon={<Flag size={20} />} text="Reporting" />
-          <hr className="my-3" />
-          <SidebarItem icon={<Settings size={20} />} text="Settings" />
-          <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />
-        </Sidebar>
+      <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
+          <SidebarGroup title="Main">
+              <SidebarItem icon={<Home size={20} />} text="Home" />
+              <SidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" />
+              <SidebarItem icon={<Calendar size={20} />} text="Calendar" />
+              <SidebarItem icon={<Layers size={20} />} text="Tasks" />
+              <SidebarItem icon={<Flag size={20} />} text="Reporting" />
+          </SidebarGroup>
+          <SidebarGroup title="Settings">
+              <SidebarItem icon={<Settings size={20} />} text="Settings" />
+              <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />
+          </SidebarGroup>
+      </Sidebar>
 
         <main className="flex-1 p-6">{renderContent()}</main>
 
