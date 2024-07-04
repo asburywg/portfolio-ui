@@ -11,10 +11,10 @@ const TransactionsTable = () => {
     if (error) {
         return <p>Error: {error}</p>;
       }
-    //   body={(row) => formatDate(row.date)}
+
     return (
         <DataTable value={transactions} dataKey="id" size='small' scrollable scrollHeight="100%" style={{width:'100%', minHeight:'100%', height: '100%'}} sortField='date' sortOrder={1}>
-            <Column field="date" header="Date" sortable style={{width: '15%'}}></Column>
+            <Column field="date" header="Date" sortable style={{width: '15%'}} body={(row) => formatDate(row.date)}></Column>
             <Column field="account" header="Account" sortable style={{width: '15%'}}></Column>
             <Column field="description" header="Description" sortable style={{width: '45%'}}></Column>
             <Column field="category" header="Category" sortable style={{width: '20%'}}></Column>
