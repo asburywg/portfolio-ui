@@ -1,74 +1,65 @@
 import './index.css';
 import Sidebar, { SidebarItem, SidebarGroup } from "./components/Sidebar"
-import { LayoutDashboard, Home, Layers, Flag, Calendar, LifeBuoy, Settings } from "lucide-react";
+import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
 
-const HomeComponent = () => <div>Home Content</div>;
-const DashboardComponent = () => <div>Dashboard Content</div>;
-const CalendarComponent = () => <div>Calendar Content</div>;
-const TasksComponent = () => <div>Tasks Content</div>;
-const ReportingComponent = () => <div>Reporting Content</div>;
+// https://lucide.dev/icons/
+
+const HomeComponent = () => <div>Home Page</div>;
+const FileSummaryComponent = () => <div>File Summary Table</div>;
 const SettingsComponent = () => <div>Settings Content</div>;
-const HelpComponent = () => <div>Help Content</div>;
+const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const [activeItem, setActiveItem] = useState("Home");
 
 
   const renderContent = () => {
     switch (activeItem) {
         case "Home":
             return <HomeComponent />;
-        case "Dashboard":
-            return <DashboardComponent />;
-        case "Calendar":
-            return <CalendarComponent />;
-        case "Tasks":
-            return <TasksComponent />;
-        case "Reporting":
-            return <ReportingComponent />;
+        case "File Summary":
+            return <FileSummaryComponent />;
         case "Settings":
             return <SettingsComponent />;
-        case "Help":
-            return <HelpComponent />;
         default:
-            return <DashboardComponent />;
+            return <NotImplementedComponent />;
     }
   };
   
   return (
     <>
       <div className="flex">
-      <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
-          <SidebarGroup title="Main">
-              <SidebarItem icon={<Home size={20} />} text="Home" />
-              <SidebarItem icon={<LayoutDashboard size={20} />} text="Dashboard" />
-              <SidebarItem icon={<Calendar size={20} />} text="Calendar" />
-              <SidebarItem icon={<Layers size={20} />} text="Tasks" />
-              <SidebarItem icon={<Flag size={20} />} text="Reporting" />
+        <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
+
+          <SidebarItem icon={<Home size={20} />} text="Home" />
+          <SidebarItem icon={<Folder size={20} />} text="File Summary" />
+
+          <SidebarGroup title="Transactions">
+            <SidebarItem icon={<Table size={20} />} text="MintUI" />
+            <SidebarItem icon={<Telescope size={20} />} text="Rollup Explorer" />
           </SidebarGroup>
-          <SidebarGroup title="Settings">
-              <SidebarItem icon={<Settings size={20} />} text="Settings" />
-              <SidebarItem icon={<LifeBuoy size={20} />} text="Help" />
+          
+          <SidebarGroup title="Reports">
+            <SidebarItem icon={<Banknote size={20} />} text="Cash Flow" />
+            <SidebarItem icon={<Gem size={20} />} text="Net Worth" />
           </SidebarGroup>
-      </Sidebar>
+      
+          <SidebarGroup title="Investments">
+            <SidebarItem icon={<Activity size={20} />} text="Positions" />
+            <SidebarItem icon={<CandlestickChart size={20} />} text="Trades" />
+            <SidebarItem icon={<HousePlus size={20} />} text="Real Estate" />
+            <SidebarItem icon={<TreePalm size={20} />} text="Retirement" />
+          </SidebarGroup>
+
+          <SidebarItem icon={<Settings size={20} />} text="Settings" bottom />
+        
+        </Sidebar>
 
         <main className="flex-1 p-6">{renderContent()}</main>
-
-
       </div>
     </>
-
-    // <div className="App">
-  
-    //   {/* <header className="App-header">
-    //       Portfolio UI
-    //   </header> */}
-    //   {/* <div className="flex"> */}
-       
-    //   {/* </div> */}
-    // </div>
   );
 }
 
