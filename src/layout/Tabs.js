@@ -11,8 +11,8 @@ function TabView({ children }) {
             {children.map((child, index) => (
                 <li 
                     key={index}
-                    className={`cursor-pointer font-medium bg-white mr-4 p-2 border-b-4 hover:text-pink-600 hover:border-accent-900 ${
-                        activeIndex === index ? "active border-pink-300" : ""
+                    className={`cursor-pointer font-medium text-lg bg-white mr-6 p-1 border-b-4 hover:border-indigo-200 ${
+                        activeIndex === index ? "active border-indigo-300 font-extrabold" : ""
                     }`}
                     onClick={() => setActiveIndex(index)}
                 >
@@ -20,13 +20,12 @@ function TabView({ children }) {
                 </li>
             ))}
         </ul>
-        <div className="tab-content">
-            {children.map((child, index) => (
-                <div key={index} className={`tab-pane ${activeIndex === index ? "active" : "hidden"}`}>
-                    {child.props.children}
-                </div>
-            ))}
-        </div>
+
+        {children.map((child, index) => (
+            <div key={index} className={`tab-pane ${activeIndex === index ? "active" : "hidden"}`}>
+                {child.props.children}
+            </div>
+        ))}
         </>
     );
 }
