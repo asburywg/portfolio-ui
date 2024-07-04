@@ -13,13 +13,13 @@ const TransactionsTable = () => {
       }
 
       return (
-        <DataTable className="h-full min-h-full w-full" value={transactions} dataKey="id" size='small' scrollable scrollHeight="100%" sortField='date' sortOrder={1}>
-            <Column field="date" header="Date" sortable style={{width: '15%'}} body={(row) => formatDate(row.date)}></Column>
-            <Column field="account" header="Account" sortable style={{width: '15%'}}></Column>
-            <Column field="description" header="Description" sortable style={{width: '45%'}}></Column>
-            <Column field="category" header="Category" sortable style={{width: '20%'}}></Column>
-            <Column field="amount" header="Amount" sortable body={(row)=>formatCurrency(row.amount)} style={{textAlign: 'right', width: '5%'}}></Column>
-          </DataTable>
+        <DataTable className="lightfont h-full min-h-full w-full" value={transactions} dataKey="id" size='small' scrollable scrollHeight="100%" sortField='date' sortOrder={1}>
+          <Column field="date" header="Date" sortable style={{width: '15%'}} body={(row) => formatDate(row.date)}></Column>
+          <Column field="account" header="Account" sortable style={{width: '15%'}}></Column>
+          <Column field="description" header="Description" sortable style={{width: '45%'}}></Column>
+          <Column field="category" header="Category" sortable style={{width: '20%'}}></Column>
+          <Column field="amount" header="Amount" sortable body={(row)=>formatCurrency(row.amount)} style={{textAlign: 'right', width: '5%'}}></Column>
+        </DataTable>
     );
 }
 

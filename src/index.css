@@ -15,12 +15,19 @@
   @tailwind utilities;
 }
 
-/* :root {
-  font-size: 15px;
+.lightfont {
+  font-size: 14px;
+  font-weight: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 
+:root {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 /* body {
   margin: 0;
