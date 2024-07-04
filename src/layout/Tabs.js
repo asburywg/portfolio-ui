@@ -23,20 +23,21 @@ function TabView({ children }) {
             </ul>
 
             {/* body, let component control margin */}
-            {/* overflow-scroll  border-solid border-4   overflow-hidden bg-gray-100 mx-6  */}
+            {/* border-solid border-4 bg-gray-100 mx-6 */}
             {childArray.map((child, index) => (
-                <div key={index} className={`flex-1 bg-gray-100 ${activeIndex === index ? "active" : "hidden"}`}>
+                <div key={index} className={`flex-1 overflow-hidden ${activeIndex === index ? "active" : "hidden"}`}>
                     {child.props.children}
                 </div>
             ))}
             {/* <div class="flex bg-blue-100">Footer</div> */}
+            
         </div>
     );
 }
 
 
 function TabPanel({ children }) {
-    return <div className="">{children}</div>;
+    return {children};
 }
 
 export {

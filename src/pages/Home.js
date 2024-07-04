@@ -1,7 +1,7 @@
 import {TabView, TabPanel} from "../layout/Tabs.js";
 
 // flex justify-center w-full h-full 
-const Tab1Component = () => <div className="border-solid border-4">Tab1 Contents</div>;
+const Tab1Component = () => <div className="h-full border-solid border-4">Tab1 Contents</div>;
 const Tab2Component = () => <div>Tab2 Contents</div>;
 const Tab3Component = () => <div>Tab3 Contents</div>;
 
