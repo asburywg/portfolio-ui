@@ -7,6 +7,14 @@ npx create-react-app portfolio-ui
 https://favicon.io/emoji-favicons/money-bag/
 
 
+https://tailwindcss.com/docs/guides/create-react-app
+
+```
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+
 
 # Getting Started with Create React App
 
