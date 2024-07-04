@@ -19,7 +19,6 @@ export const TransactionProvider = ({ children }) => {
         setError(err.message);
       }
     };
-    console.log('i fire once');
     fetchTransactions();
   }, []);
 
