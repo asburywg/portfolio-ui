@@ -1,9 +1,8 @@
 # Sidebar
 
-https://github.com/constgenius/sidebarReact/tree/main
-
-
-
+```
+npm i lucide-react
+```
 
 # Setup
 
