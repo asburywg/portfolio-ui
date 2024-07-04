@@ -1,14 +1,15 @@
 import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
-import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
+import { Home, Folder, Table, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
 import HomePage from "./components/Home"
 import FileSummary from "./components/FileSummary"
+import Transactions from "./components/Transactions"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("File Summary");
+  const [activeItem, setActiveItem] = useState("Transactions");
 
 
   const renderContent = () => {
@@ -17,6 +18,8 @@ function App() {
           return <HomePage />;
         case "File Summary":
           return <FileSummary />;
+        case "Transactions":
+          return <Transactions />;
         default:
           return <NotImplementedComponent />;
     }
@@ -29,11 +32,7 @@ function App() {
 
           <SidebarItem icon={Home} text="Home" />
           <SidebarItem icon={Folder} text="File Summary" />
-
-          <SidebarGroup title="Transactions">
-            <SidebarItem icon={Table} text="MintUI" />
-            <SidebarItem icon={Telescope} text="Rollup Explorer" />
-          </SidebarGroup>
+          <SidebarItem icon={Table} text="Transactions" />
           
           <SidebarGroup title="Reports">
             <SidebarItem icon={Banknote} text="Cash Flow" />
