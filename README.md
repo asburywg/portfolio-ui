@@ -1,36 +1,16 @@
-# Sidebar
 
-```
-npm i lucide-react
-```
-
-# Setup
-
-```
-npx create-react-app portfolio-ui
-```
-
-https://favicon.io/emoji-favicons/money-bag/
+## Components
+- [icons](https://lucide.dev/icons/)
+- [sidebar](https://github.com/constgenius/sidebarReact/tree/main)
 
 
-https://tailwindcss.com/docs/guides/create-react-app
+## Setup
+- [tailwinds](https://tailwindcss.com/docs/guides/create-react-app)
+- [favicon](https://favicon.io/emoji-favicons/money-bag/)
+- [create-react-app](https://github.com/facebook/create-react-app)
 
-```
-npm install -D tailwindcss
-npx tailwindcss init
-```
 
-```
-eslint --init
-```
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+## Scripts
 
 ### `npm start`
 

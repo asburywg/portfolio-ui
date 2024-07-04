@@ -4,8 +4,6 @@ import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, G
 import { useState } from "react";
 import HomePage from "./components/Home"
 
-// https://lucide.dev/icons/
-
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 

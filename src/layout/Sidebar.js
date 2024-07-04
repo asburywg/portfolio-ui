@@ -3,8 +3,6 @@ import { createContext, useContext, useState } from "react"
 
 const SidebarContext = createContext();
 
-// https://github.com/constgenius/sidebarReact/tree/main
-
 export default function Sidebar({ children, setActiveItem, activeItem }) {
     const [expanded, setExpanded] = useState(true)
     return (
