@@ -50,7 +50,7 @@ function App() {
         
         </Sidebar>
 
-        <main className="flex-1 p-6">{renderContent()}</main>
+        <main className="flex-1">{renderContent()}</main>
       </div>
     </>
   );

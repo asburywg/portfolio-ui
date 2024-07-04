@@ -5,33 +5,38 @@ function TabView({ children }) {
     const childArray = React.Children.toArray(children);
 
     return (
-        <>
-        <ul className="flex flex-wrap justify-center mb-6">
-            {childArray.map((child, index) => (
-                <li 
-                    key={index}
-                    className={`cursor-pointer text-lg bg-white mr-6 p-1 border-b-4 hover:border-indigo-200 ${
-                        activeIndex === index ? "active border-indigo-300 font-extrabold" : ""
-                    }`}
-                    onClick={() => setActiveIndex(index)}
-                >
-                    {child.props.header}
-                </li>
-            ))}
-        </ul>
+        <div class="flex flex-col h-screen">
 
-        {childArray.map((child, index) => (
-            <div key={index} className={`tab-pane ${activeIndex === index ? "active" : "hidden"}`}>
-                {child.props.children}
-            </div>
-        ))}
-        </>
+            {/* header */}
+            <ul className="flex flex-wrap justify-center my-6">
+                {childArray.map((child, index) => (
+                    <li 
+                        key={index}
+                        className={`cursor-pointer text-lg bg-white mr-6 p-1 border-b-4 hover:border-indigo-200 ${
+                            activeIndex === index ? "active border-indigo-300 font-extrabold" : ""
+                        }`}
+                        onClick={() => setActiveIndex(index)}
+                    >
+                        {child.props.header}
+                    </li>
+                ))}
+            </ul>
+
+            {/* body, let component control margin */}
+            {/* overflow-scroll  border-solid border-4   overflow-hidden bg-gray-100 mx-6  */}
+            {childArray.map((child, index) => (
+                <div key={index} className={`flex-1 bg-gray-100 ${activeIndex === index ? "active" : "hidden"}`}>
+                    {child.props.children}
+                </div>
+            ))}
+            {/* <div class="flex bg-blue-100">Footer</div> */}
+        </div>
     );
 }
 
 
 function TabPanel({ children }) {
-    return <div>{children}</div>;
+    return <div className="">{children}</div>;
 }
 
 export {
