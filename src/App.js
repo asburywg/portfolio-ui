@@ -3,20 +3,23 @@ import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
 import { Home, Folder, Table, Telescope, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
 import HomePage from "./components/Home"
+import FileSummary from "./components/FileSummary"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Home");
+  const [activeItem, setActiveItem] = useState("File Summary");
 
 
   const renderContent = () => {
     switch (activeItem) {
         case "Home":
-            return <HomePage />;
+          return <HomePage />;
+        case "File Summary":
+          return <FileSummary />;
         default:
-            return <NotImplementedComponent />;
+          return <NotImplementedComponent />;
     }
   };
   
@@ -25,27 +28,27 @@ function App() {
       <div className="flex">
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
-          <SidebarItem icon={<Home size={20} />} text="Home" />
-          <SidebarItem icon={<Folder size={20} />} text="File Summary" />
+          <SidebarItem icon={Home} text="Home" />
+          <SidebarItem icon={Folder} text="File Summary" />
 
           <SidebarGroup title="Transactions">
-            <SidebarItem icon={<Table size={20} />} text="MintUI" />
-            <SidebarItem icon={<Telescope size={20} />} text="Rollup Explorer" />
+            <SidebarItem icon={Table} text="MintUI" />
+            <SidebarItem icon={Telescope} text="Rollup Explorer" />
           </SidebarGroup>
           
           <SidebarGroup title="Reports">
-            <SidebarItem icon={<Banknote size={20} />} text="Cash Flow" />
-            <SidebarItem icon={<Gem size={20} />} text="Net Worth" />
+            <SidebarItem icon={Banknote} text="Cash Flow" />
+            <SidebarItem icon={Gem} text="Net Worth" />
           </SidebarGroup>
       
           <SidebarGroup title="Investments">
-            <SidebarItem icon={<Activity size={20} />} text="Positions" />
-            <SidebarItem icon={<CandlestickChart size={20} />} text="Trades" />
-            <SidebarItem icon={<HousePlus size={20} />} text="Real Estate" />
-            <SidebarItem icon={<TreePalm size={20} />} text="Retirement" />
+            <SidebarItem icon={Activity} text="Positions" />
+            <SidebarItem icon={CandlestickChart} text="Trades" />
+            <SidebarItem icon={HousePlus} text="Real Estate" />
+            <SidebarItem icon={TreePalm} text="Retirement" />
           </SidebarGroup>
 
-          <SidebarItem icon={<Settings size={20} />} text="Settings" bottom />
+          <SidebarItem icon={Settings} text="Settings" bottom />
         
         </Sidebar>
 
