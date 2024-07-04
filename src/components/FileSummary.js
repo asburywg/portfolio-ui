@@ -10,20 +10,12 @@ const data = [{"account_key": "fidelity", "account_type": "brokerage", "latest_s
 export default function FileSummary() {
     const [selected, setSelected] = useState(null);
 
-    const headerTemplate = (data) => {
-        return (
-            <div style={{fontWeight: 'bold', textAlign: "center", backgroundColor: '#D3D3D3', margin: '-7px', padding: '2px'}}>
-                {data.account_type}
-            </div>
-        );
-    };
-
     const statementBodyTemplate = (rowData) => {
         const formattedDate = formatDateMonth(rowData.latest_statement_end);
         return (
           <>
             <span id={`statement-end-${rowData.account_key}`}>{formattedDate}</span>
-            <Tooltip className={`absolute left-full rounded-md px-2 py-1 ml-3`} target={`#statement-end-${rowData.account_key}`} content={`${rowData.latest_statement_start} - ${rowData.latest_statement_end}`} />
+            <Tooltip className={`absolute left-full rounded-md px-1 ml-3`} target={`#statement-end-${rowData.account_key}`} content={`${rowData.latest_statement_start} - ${rowData.latest_statement_end}`} />
           </>
         );
     };
@@ -31,16 +23,17 @@ export default function FileSummary() {
     return (
 
         <>
-          <div className="card" style={{width:"60rem", margin: '0 auto'}}>
-
-        <DataTable value={data} showGridlines scrollable scrollHeight="800px" rowGroupHeaderTemplate={headerTemplate} rowGroupMode="subheader" groupRowsBy="account_type" size='small' selectionMode="single" selection={selected} onSelectionChange={(e) => setSelected(e.value)}>
-            <Column field="account_key" header="Account Key" align='center'></Column>
-            <Column header="Statement" align='center' body={statementBodyTemplate}></Column>
-            <Column field="latest_paystub" header="Paystub" align='center'></Column>
-            <Column field="latest_transaction_date" header="Transactions" align='center'></Column>
-            <Column field="latest_activity_date" header="Activity" align='center'></Column>
-        </DataTable>
-        </div>
+            <div className='flex justify-center mt-10'>
+                <DataTable value={data} showGridlines scrollable scrollHeight="800px" size='small' selectionMode="single" selection={selected} onSelectionChange={(e) => setSelected(e.value)}
+                    className='w-7/12'>
+                    <Column field="account_key" header="Account Key" align='center' sortable></Column>
+                    <Column field="account_type" header="Account Type" align='center' sortable></Column>
+                    <Column field="latest_statement_end" header="Statement" align='center' body={statementBodyTemplate} sortable></Column>
+                    <Column field="latest_paystub" header="Paystub" align='center' sortable></Column>
+                    <Column field="latest_transaction_date" header="Transactions" align='center' sortable></Column>
+                    <Column field="latest_activity_date" header="Activity" align='center' sortable></Column>
+                </DataTable>
+            </div>
         </>
         
     )
