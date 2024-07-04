@@ -1,3 +1,10 @@
+# Sidebar
+
+https://github.com/constgenius/sidebarReact/tree/main
+
+
+
+
 # Setup
 
 ```
@@ -14,7 +21,9 @@ npm install -D tailwindcss
 npx tailwindcss init
 ```
 
-
+```
+eslint --init
+```
 
 # Getting Started with Create React App
 
