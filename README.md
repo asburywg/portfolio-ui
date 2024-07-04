@@ -1,3 +1,7 @@
+[StrictMode](https://stackoverflow.com/questions/61254372/my-react-component-is-rendering-twice-because-of-strict-mode/61897567#61897567)
+
+>>> StrictMode renders components twice (on dev but not production) in order to detect any problems with your code and warn you about them (which can be quite useful). If you have StrictMode enabled in your app but don't remember enabling it, it might be because you used create-react-app or similar to create your app initially, which automatically enables StrictMode by default.
+
 
 ## Components
 - [icons](https://lucide.dev/icons/)

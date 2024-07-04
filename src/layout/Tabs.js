@@ -2,12 +2,12 @@ import React, { useState } from "react";
 
 function TabView({ children }) {
     const [activeIndex, setActiveIndex] = useState(0);
+    const childArray = React.Children.toArray(children);
 
     return (
         <>
-        {/* tab headers */}
         <ul className="flex flex-wrap justify-center mb-6">
-            {children.map((child, index) => (
+            {childArray.map((child, index) => (
                 <li 
                     key={index}
                     className={`cursor-pointer text-lg bg-white mr-6 p-1 border-b-4 hover:border-indigo-200 ${
@@ -20,7 +20,7 @@ function TabView({ children }) {
             ))}
         </ul>
 
-        {children.map((child, index) => (
+        {childArray.map((child, index) => (
             <div key={index} className={`tab-pane ${activeIndex === index ? "active" : "hidden"}`}>
                 {child.props.children}
             </div>

@@ -1,9 +1,9 @@
 import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
 import { Home, Folder, Table, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
 import { useState } from "react";
-import HomePage from "./components/Home"
-import FileSummary from "./components/FileSummary"
-import Transactions from "./components/Transactions"
+import HomePage from "./pages/Home"
+import FileSummary from "./pages/FileSummary"
+import Transactions from "./pages/Transactions"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
