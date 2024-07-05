@@ -16,7 +16,8 @@ GET `/transactions/` works
 - [sidebar](https://github.com/constgenius/sidebarReact/tree/main)
 - [tabs](https://github.com/cassidoo/react-tailwind-tabs/blob/main/TailwindTabs.jsx)
 - [flowbite](https://flowbite.com/)
-
+- [progress](https://tw-elements.com/docs/react/components/progress/)
+- [animated progress](https://medium.com/@bruno.raljic/animated-multi-part-progress-bar-made-from-scratch-with-reactjs-and-css-9c1d6a4dbef7)
 
 ## Setup
 - [tailwinds](https://tailwindcss.com/docs/guides/create-react-app)
