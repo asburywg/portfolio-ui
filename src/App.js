@@ -4,12 +4,13 @@ import { useState } from "react";
 import HomePage from "./pages/Home"
 import FileSummary from "./pages/FileSummary"
 import Transactions from "./pages/Transactions"
+import Retirement from "./pages/Retirement"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Transactions");
+  const [activeItem, setActiveItem] = useState("Retirement");
 
 
   const renderContent = () => {
@@ -20,6 +21,8 @@ function App() {
           return <FileSummary />;
         case "Transactions":
           return <Transactions />;
+        case "Retirement":
+          return <Retirement />;
         default:
           return <NotImplementedComponent />;
     }
@@ -31,8 +34,8 @@ function App() {
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
           <SidebarItem icon={Home} text="Home" />
-          <SidebarItem icon={Folder} text="File Summary" />
-          <SidebarItem icon={Table} text="Transactions" />
+          <SidebarItem icon={Folder} text="File Summary" alert />
+          <SidebarItem icon={Table} text="Transactions" alert />
           
           <SidebarGroup title="Reports">
             <SidebarItem icon={Banknote} text="Cash Flow" />
@@ -43,7 +46,7 @@ function App() {
             <SidebarItem icon={Activity} text="Positions" />
             <SidebarItem icon={CandlestickChart} text="Trades" />
             <SidebarItem icon={HousePlus} text="Real Estate" />
-            <SidebarItem icon={TreePalm} text="Retirement" />
+            <SidebarItem icon={TreePalm} text="Retirement" alert />
           </SidebarGroup>
 
           <SidebarItem icon={Settings} text="Settings" bottom />
