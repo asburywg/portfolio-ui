@@ -20,6 +20,7 @@ function Module401k({ current_perc, projected_perc, current_amt, proected_amt, l
 
             <ProgressLine
                 label="2024 Contributions"
+                contrPerc={6}
                 visualParts={[
                     {
                         percentage: `${current_perc}%`,
