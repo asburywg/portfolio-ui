@@ -10,7 +10,7 @@ const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Retirement");
+  const [activeItem, setActiveItem] = useState("Transactions");
 
 
   const renderContent = () => {

@@ -5,7 +5,7 @@ function TabView({ children }) {
     const childArray = React.Children.toArray(children);
 
     return (
-        <div class="flex flex-col h-screen">
+        <div className="flex flex-col h-screen">
 
             {/* header */}
             <ul className="flex flex-wrap justify-center my-6">

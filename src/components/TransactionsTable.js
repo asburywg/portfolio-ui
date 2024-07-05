@@ -1,66 +1,58 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useLayoutEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column'
 import { formatDate, formatCurrency } from '../Utils.js'
 import { TransactionContext } from '../context/TransactionContext';
 import { FilterMatchMode } from 'primereact/api';
 import { MultiSelect } from 'primereact/multiselect';
-
+const _ = require("lodash");
 
 const TransactionsTable = ({ paginate = true, rows = 50, filterable }) => {
-  const ctx = useContext(TransactionContext);
+  const { transactions,
+    accounts
+  } = useContext(TransactionContext);
+
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
 
-  const [filters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    account: { value: null, matchMode: FilterMatchMode.IN }
-});
 
-  // useEffect(() => {
-  //   ctx.filterTransactions(selectedAccounts);
-  // }, [selectedAccounts]);
+  useEffect(() => {
+    setFilteredTransactions(transactions);
+  }, [transactions]);
 
 
-  const header = (
-    <span >
-      <MultiSelect transitionOptions={{ disabled: true }} 
-      value={selectedAccounts} 
-      options={ctx.accounts.map(acc => ({ label: acc, value: acc }))} 
-      onChange={(e)=>setSelectedAccounts(e.value)} 
-      maxSelectedLabels={1} placeholder="Select Accounts" resetFilterOnHide={true} filter />
-    </span>
-  );
+  const filterTransactions = (account) => {
+    const start = new Date();
+    setSelectedAccounts(account)
+    const filtered = _.filter(transactions, (tns) => _.includes(account, tns.account));
+    setFilteredTransactions(filtered);
+    const end = new Date();
+    console.log(end - start);
+  };
 
-  // TODO faster than custom, account is slower, custom gives flexibility for more filters / formatting
-  const accountFilterTemplate = (options) => {
-    console.log(options);
+  const renderHeader = () => {
     return (
-        <MultiSelect
-            value={options.value}
-            options={ctx.accounts.map(acc => ({ label: acc, value: acc }))}
-            onChange={(e) => options.filterApplyCallback(e.value)}
-            placeholder="Select Accounts"
-            className="p-column-filter"
-            maxSelectedLabels={1}
-            style={{ minWidth: '14rem' }}
-        />
+      <MultiSelect
+        className="custom-multi-select"
+        value={selectedAccounts}
+        options={accounts.map(acc => ({ label: acc, value: acc }))}
+        onChange={(e) => filterTransactions(e.value)}
+        maxSelectedLabels={1} placeholder="Select Accounts"
+        resetFilterOnHide={true} filter filterPlaceholder='Search' />
     );
   };
+
 
   // TODO fix scrollbar
   return (
     <DataTable className="lightfont h-full min-h-full w-full" size='small' scrollable scrollHeight="100%"
-      value={ctx.filteredTransactions} dataKey="id" sortField='date' sortOrder={1} removableSort sortMode="multiple"
+      value={filteredTransactions} dataKey="id" sortField='date' sortOrder={1} removableSort sortMode="multiple"
       paginator={paginate} rows={rows}
-      header={filterable ? header : undefined}
+      header={filterable ? renderHeader() : undefined}
       globalFilterFields={['description', 'category', 'tags', 'notes', 'amount']}
-      filters={filters} filterDisplay="row">
+    >
       <Column field="date" header="Date" sortable style={{ width: '15%' }} body={(row) => formatDate(row.date)}></Column>
-      
-
-      <Column field="account" filterField="account" filter filterElement={accountFilterTemplate} filterMenuStyle={{ width: '14rem' }} showFilterMenu={false} header="Account" sortable style={{ width: '15%' }}></Column>
-      
-      
+      <Column field="account" header="Account" sortable style={{ width: '15%' }}></Column>
       <Column field="description" header="Description" sortable style={{ width: '45%' }}></Column>
       <Column field="category" header="Category" sortable style={{ width: '20%' }}></Column>
       <Column field="amount" header="Amount" sortable body={(row) => formatCurrency(row.amount)} style={{ textAlign: 'right', width: '5%' }}></Column>

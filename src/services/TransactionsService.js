@@ -2,7 +2,7 @@ import api from './axiosConfig';
 
 class TransactionService {
 
-  async getTransactions(page = 1, perPage = 10) {
+  async getTransactions(page = 1, perPage = 100) {
     try {
       const response = await api.get('/transactions/', {
         params: {

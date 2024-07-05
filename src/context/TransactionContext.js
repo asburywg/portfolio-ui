@@ -6,12 +6,10 @@ const TransactionContext = createContext();
 const TransactionProvider = ({ children }) => {
 
   const [transactions, setTransactions] = useState([]);
-  // const [error, setError] = useState(null);
-
-  // filters
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
 
+  // filtered
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -20,6 +18,7 @@ const TransactionProvider = ({ children }) => {
         setTransactions(data);
       } catch (err) {
         // setError(err.message);
+        // const [error, setError] = useState(null);
         console.log(err);
       }
     };
@@ -32,26 +31,12 @@ const TransactionProvider = ({ children }) => {
     setAccounts(accounts);
   }, [transactions]);
 
-  const filterTransactions = (accounts) => {
-    const filtered = transactions.filter(transaction => {
-      const accountFilter = accounts.length === 0 || accounts.some(acc => transaction.account === acc);
-      return accountFilter;
-    });
-    setFilteredTransactions(filtered);
-  };
-
-  // const selectionChange = (e) => {
-    // setSelectedAccounts(e.value);
-    // filterTransactions(accounts=e.value);
-  // };
-
-
   return (
     <TransactionContext.Provider value={{
       transactions,
       accounts,
       filteredTransactions,
-      filterTransactions
+      setFilteredTransactions,
     }}>
       {children}
     </TransactionContext.Provider>

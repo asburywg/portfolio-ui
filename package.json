@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "axios-cache-interceptor": "^1.5.3",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.400.0",
     "primereact": "^10.7.0",
     "react": "^18.3.1",
