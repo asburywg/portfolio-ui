@@ -1,5 +1,5 @@
-import {TabView, TabPanel} from "../layout/Tabs.js";
-import {TransactionsTable} from "../components/TransactionsTable.js"
+import { TabView, TabPanel } from "../layout/Tabs.js";
+import { TransactionsTable } from "../components/TransactionsTable.js"
 import { TransactionProvider } from '../context/TransactionContext';
 
 export default function Transactions() {
@@ -12,10 +12,12 @@ export default function Transactions() {
                     <div className="h-5/6 w-5/6 mx-auto mt-5">
                         <TransactionsTable />
                     </div>
-                
+
                 </TabPanel>
                 <TabPanel header="Rollup Explorer">
-                    <div>test</div>
+                    <div className="h-5/6 w-5/6 mx-auto mt-2">
+                        <TransactionsTable filterable />
+                    </div>
                 </TabPanel>
             </TabView>
         </TransactionProvider>
