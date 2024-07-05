@@ -1,7 +1,7 @@
 import { TabView, TabPanel } from "../layout/Tabs.js";
 import { Module401k } from "../components/401k.js"
 
-const contr_data = {"current_perc": 25.15, "projected_perc": 12.13, "current_amt": 4000.00, "proected_amt": 4000.00}
+const contr_data = {"current_perc": 25.21, "projected_perc": 36.13, "current_amt": 4132.41, "proected_amt": 4124.12, "limit": 23000}
 
 export default function Retirement() {
 

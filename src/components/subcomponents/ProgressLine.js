@@ -1,72 +1,69 @@
 import React, { useEffect, useState } from "react";
 import "./ProgressLine.css";
+import { formatCurrency } from '../../Utils.js'
 
-const ProgressLine = ({
-  label,
-  backgroundColor = "#e5e5e5",
-  // expected format for visual parts
-  visualParts = [
-    {
-      percentage: "0%",
-      color: "white"
-    }
-  ]
-}) => {
-  // Starting values needed for the animation
-  // Mapped by "visualParts" so it can work with multiple values dynamically
-  // It's an array of percentage widths
-  const [widths, setWidths] = useState(
-    visualParts.map(() => {
-      return 0;
-    })
-  );
+const expected_input = [{
+    percentage: "0%",
+    color: "white",
+    label: ""
+}]
 
-  useEffect(() => {
-    // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
-    // You need to wrap it to trigger the animation
-    requestAnimationFrame(() => {
-      // Set a new array of percentage widths based on the props
-      setWidths(
-        visualParts.map(item => {
-          return item.percentage;
-        })
-      );
-    });
-  }, [visualParts]);
 
-  return (
-    <>
-      <div className="progressLabel">{label}</div>
-      <div
-        className="progressVisualFull"
-        // to change the background color dynamically
-        style={{
-          backgroundColor
-        }}
-      >
-        {visualParts.map((item, index) => {
-          // map each part into separate div and each will be animated
-          // because of the "transition: width 2s;" css in class "progressVisualPart"
-          // and because of the new width ("widths[index]", previous one was 0)
-          return (
-            <div
-              // There won't be additional changes in the array so the index can be used
-              /* eslint-disable-next-line react/no-array-index-key */
-              key={index}
-              style={{
-                width: widths[index],
-                // setting the actual color of bar part
-                backgroundColor: item.color
-              }}
-              className="progressVisualPart"
-            >
-                test
+const ProgressLine = ({ label, backgroundColor = "#e5e5e5", visualParts = expected_input }) => {
+
+    const [widths, setWidths] = useState(visualParts.map(() => { return 0; }));
+
+    useEffect(() => {
+        // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+        requestAnimationFrame(() => {
+            setWidths(visualParts.map(item => { return item.percentage; }));
+        });
+    }, [visualParts]);
+
+    return (
+        <div className='contr'>
+            <div className="mb-7 text-2xl progressLabel">{label}</div>
+           
+            
+            <div className="flex h-10" style={{ backgroundColor }}>
+                {visualParts.map((item, index) => {
+                    return (
+                        <div key={index} style={{ width: widths[index], backgroundColor: item.color }}
+                            className="transition-all duration-[2000ms] flex items-center justify-end">
+                                {/* <p id='hideMe' className="mr-auto italic text-sm pl-2">{item.label}</p> */}
+                                {/* <p id='hideMe' className="mr-auto italic pl-2">{formatCurrency(item.amount)}</p> */}
+                                {/* <p id='hideMe' className="text-xl font-extrabold pr-4">{formatCurrency(item.amount)}</p> */}
+                                <p id='hideMe' className="text-lg font-extrabold pr-4">{item.percentage}</p>
+                        </div>
+                    );
+                })}
             </div>
-          );
-        })}
-      </div>
-    </>
-  );
+            
+            <div className="flex text-center text-sm mt-3 italic progressLabel">
+                {visualParts.map((item, index) => {
+                    return (
+                        <div key={index} style={{ width: widths[index] }}>
+                            {item.label}
+                        </div>
+                    );
+                })}
+            </div>
+
+            <div className="flex text-center my-1 text-base font-bold progressLabel">
+                {visualParts.map((item, index) => {
+                    return (
+                        <div key={index} style={{ width: widths[index] }}>
+                            {formatCurrency(item.amount)}
+                        </div>
+                    );
+                })}
+            </div>
+           
+
+
+
+        </div>
+    );
 };
 
 export default ProgressLine;

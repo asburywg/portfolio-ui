@@ -2,7 +2,18 @@
 import ProgressLine from "./subcomponents/ProgressLine";
 
 
-function Module401k({ current_perc, projected_perc, current_amt, proected_amt }) {
+function Module401k({ current_perc, projected_perc, current_amt, proected_amt, limit }) {
+
+    const remaining = limit - current_amt - proected_amt
+    console.log(remaining);
+
+    /*
+    color: "#00b306",
+    color: "#99ffbb",
+    color: "#e6e6e6",
+
+    gold, lightsteelblue, ''
+    **/
 
     return (
         <>
@@ -12,15 +23,21 @@ function Module401k({ current_perc, projected_perc, current_amt, proected_amt })
                 visualParts={[
                     {
                         percentage: `${current_perc}%`,
-                        color: "lightsteelblue"
+                        color: "#4CAF50",
+                        label: "YTD",
+                        amount: current_amt
                     },
                     {
                         percentage: `${projected_perc}%`,
-                        color: "gold"
+                        color: "#FFC107",
+                        label: "Projected",
+                        amount: proected_amt
                     },
                     {
                         percentage: `${100-projected_perc-current_perc}%`,
-                        color: ""
+                        color: "",
+                        label: "Remaining",
+                        amount: remaining
                     }
                 ]}
             />
