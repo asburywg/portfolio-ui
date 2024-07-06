@@ -34,6 +34,7 @@ const data = [
   {
     "category": "Expenses",
     "2024-03": -4638.75,
+    "2024-03-perc": 10,
     "2024-04": -6863.8,
     "2024-05": -7591.659999999999,
     "subRows": [
@@ -93,7 +94,19 @@ const headers = [
     "accessorKey": "2024-03",
     "header": "2024-03",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    // size: 20,
+    size: 20,
+    muiTableBodyCellProps: {
+      align: 'right'
+    },
+    muiTableHeadCellProps: {
+      align: 'right',
+    },
+  },
+  {
+    "accessorKey": "2024-03-perc",
+    "header": "",
+    // Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
+    size: 5,
     muiTableBodyCellProps: {
       align: 'right'
     },
@@ -105,7 +118,7 @@ const headers = [
     "accessorKey": "2024-04",
     "header": "2024-04",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    // size: 20,
+    size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -117,7 +130,7 @@ const headers = [
     "accessorKey": "2024-05",
     "header": "2024-05",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    // size: 20,
+    size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -129,7 +142,7 @@ const headers = [
     "accessorKey": "TTM",
     "header": "TTM",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    // size: 20,
+    size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -145,10 +158,11 @@ const CashFlowTable = () => {
   const [visibleColumns, setVisibleColumns] = useState(['category', '2024-03', '2024-04', '2024-05', 'TTM']);
 
   // const columns = useMemo(() => headers, []);
+  // .filter(col => visibleColumns.includes(col.accessorKey))
   const columns = useMemo(() => {
-    return headers.filter(col => visibleColumns.includes(col.accessorKey)).map(col => ({
+    return headers.map(col => ({
       ...col,
-      header: !(['TTM', 'Category'].includes(col.header)) ? formatDateHeader(col.header) : col.header,
+      header: !(['TTM', 'Category', ''].includes(col.header)) ? formatDateHeader(col.header) : col.header,
     }));
   }, []);
 
