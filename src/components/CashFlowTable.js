@@ -31,6 +31,10 @@ const CashFlowTable = () => {
       ...col,
       header: !(['TTM', 'Category', ''].includes(col.header)) ? formatDateHeader(col.header) : col.header,
       Cell: props => <div>{formatCurrency(props.renderedCellValue)}</div>,
+      grow: false,
+      size: 175,
+      maxSize: 175,
+      minSize: 175
     }));
   }, []);
 
@@ -44,7 +48,10 @@ const CashFlowTable = () => {
     enableFilters: false,
     enableColumnActions: false,
     enablePagination: false,
-    // layoutMode: 'fixed',
+    enableBottomToolbar:false,  // footer, add custom date pagination here
+    enableTopToolbar:false,
+    // enableHiding: false,
+    layoutMode: 'semantic',  // 'grid' and grow specified will set size, 'semantic' grow has no affect
     initialState: {
       density: 'compact',
       columnVisibility: { category: false }
@@ -62,7 +69,11 @@ const CashFlowTable = () => {
         ),
         GroupedCell: ({ row }) => {
           return row.getValue('category');
-        }
+        },
+        grow: false,
+        size: 250,
+        maxSize: 250,
+        minSize: 250
       },
     },
 
