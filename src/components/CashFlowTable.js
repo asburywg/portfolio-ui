@@ -175,7 +175,11 @@ const CashFlowTable = () => {
       muiTableBodyCellProps: {
         align: (['Category'].includes(col.header)) ? 'left' : 'right'
       },
-      Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
+      Cell: props => 
+        <div className={
+          `${['Living', 'Leisure'].includes(props.renderedCellValue) ? "ml-5":""}` 
+          // `${!['Living', 'Leisure', 'Income', 'Expenses'].includes(props.renderedCellValue) ? "ml-7":""}`
+        }> {formatCurrency(props.renderedCellValue)} </div>,
     }));
   }, []);
 
@@ -202,7 +206,7 @@ const CashFlowTable = () => {
           sx: () => ({
             maxWidth: '4rem',
             width: '4rem',
-            backgroundColor: (['Net Profit', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5' : ''
+            backgroundColor: (['Net Profit', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5' : '',
           }),
         }),
         size: 40,
@@ -211,11 +215,11 @@ const CashFlowTable = () => {
     },
     muiTableBodyCellProps: ({ row }) => ({
       sx: {
-        backgroundColor: (['Net Profit', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5' : ''
+        backgroundColor: (['Net Profit', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5' : '',
       },
     }),
     muiTableHeadCellProps: ({ column }) => ({
-      align: (['category'].includes(column.id)) ? 'center' : 'right',
+      align: column.id.match(/\d{4}-\d{2}/g) ? 'right' : 'left',
     }),
   });
 
