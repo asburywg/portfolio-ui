@@ -2,8 +2,10 @@ import React, { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
+  MRT_ExpandAllButton
 } from 'material-react-table';
 import { formatCurrency } from '../Utils.js';
+import { Box, Stack } from '@mui/material';
 
 // TOOD utils
 const formatDateHeader = (dateString) => {
@@ -65,13 +67,13 @@ const headers = [
   {
     "accessorKey": "category",
     "header": "Category",
-    size: 120,
+    // size: 120,
   },
   {
     "accessorKey": "2024-03",
     "header": "2024-03",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    // size: 20,
     muiTableBodyCellProps: {
       align: 'right'
     },
@@ -83,7 +85,7 @@ const headers = [
     "accessorKey": "2024-04",
     "header": "2024-04",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    // size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -95,7 +97,7 @@ const headers = [
     "accessorKey": "2024-05",
     "header": "2024-05",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    // size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -107,7 +109,7 @@ const headers = [
     "accessorKey": "TTM",
     "header": "TTM",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    // size: 20,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -130,6 +132,7 @@ const CashFlowTable = () => {
     }));
   }, []);
 
+  // https://www.material-react-table.com/docs/guides/column-grouping#customize-expand-column
   const table = useMaterialReactTable({
     columns,
     data,
@@ -139,7 +142,25 @@ const CashFlowTable = () => {
     enableFilters: false,
     enableColumnActions: false,
     enablePagination: false,
-    initialState: { density: 'compact' },
+    initialState: { 
+      density: 'compact'
+    },
+    displayColumnDefOptions: {
+      'mrt-row-expand': {
+        Header: () => (  
+          <MRT_ExpandAllButton table={table} />
+        ),
+        muiTableBodyCellProps: ({ row }) => ({
+          sx: () => ({
+            maxWidth: '3rem',
+            width: '3rem',
+            backgroundColor: ( ['Net Income', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5': ''
+          }),
+        }),
+        size: 30,
+        minSize: 30,
+      },
+    },
     muiTableBodyCellProps: ({ row }) => ({
       sx: {
         backgroundColor: ( ['Net Income', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5': ''

@@ -11,7 +11,7 @@ export default function CashFlow() {
   return (
     <TabView>
       <TabPanel header="Table">
-        <div className="h-5/6 w-2/4 mx-auto mt-5">
+        <div className="h-5/6 w-3/4 mx-auto mt-5">
           <CashFlowTable />
 
         </div>
