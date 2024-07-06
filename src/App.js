@@ -5,12 +5,13 @@ import HomePage from "./pages/Home"
 import FileSummary from "./pages/FileSummary"
 import Transactions from "./pages/Transactions"
 import Retirement from "./pages/Retirement"
+import CashFlow from "./pages/CashFlow"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Transactions");
+  const [activeItem, setActiveItem] = useState("Cash Flow");
 
 
   const renderContent = () => {
@@ -23,6 +24,8 @@ function App() {
           return <Transactions />;
         case "Retirement":
           return <Retirement />;
+        case "Cash Flow":
+          return <CashFlow />;
         default:
           return <NotImplementedComponent />;
     }
