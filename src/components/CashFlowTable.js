@@ -166,6 +166,10 @@ const CashFlowTable = () => {
 
   const [data, setData] = useState(res['rows']);
 
+  const excludeSet = new Set(['Income', 'Expenses', 'Net Profit'])
+  const excludeSet2 = new Set(['Living', 'Leisure', 'Uncategorized'])
+  const merged = new Set([...excludeSet2, ...excludeSet])
+
   // const columns = useMemo(() => headers, []);
   // .filter(col => visibleColumns.includes(col.accessorKey))
   const columns = useMemo(() => {
@@ -175,10 +179,10 @@ const CashFlowTable = () => {
       muiTableBodyCellProps: {
         align: (['Category'].includes(col.header)) ? 'left' : 'right'
       },
+      // size: col.header.match(/\d{4}-\d{2}/g) ? 10 : 100,
       Cell: props => 
         <div className={
-          `${['Living', 'Leisure'].includes(props.renderedCellValue) ? "ml-5":""}` 
-          // `${!['Living', 'Leisure', 'Income', 'Expenses'].includes(props.renderedCellValue) ? "ml-7":""}`
+          `${!(merged.has(props.renderedCellValue)) ? "ml-7": (!(excludeSet.has(props.renderedCellValue)) ? "ml-3" : "")}`
         }> {formatCurrency(props.renderedCellValue)} </div>,
     }));
   }, []);
@@ -204,13 +208,13 @@ const CashFlowTable = () => {
         ),
         muiTableBodyCellProps: ({ row }) => ({
           sx: () => ({
-            maxWidth: '4rem',
-            width: '4rem',
+            maxWidth: '3rem',
+            width: '3rem',
             backgroundColor: (['Net Profit', 'Income', 'Expenses'].includes(row.original.category)) ? '#F5F5F5' : '',
           }),
         }),
-        size: 40,
-        minSize: 40,
+        size: 20,
+        minSize: 20,
       },
     },
     muiTableBodyCellProps: ({ row }) => ({
