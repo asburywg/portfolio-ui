@@ -41,14 +41,14 @@ function App() {
           <SidebarItem icon={Table} text="Transactions" alert />
           
           <SidebarGroup title="Reports">
-            <SidebarItem icon={Banknote} text="Cash Flow" />
-            <SidebarItem icon={Gem} text="Net Worth" />
+            <SidebarItem icon={Banknote} text="Cash Flow" alert />
+            <SidebarItem icon={Gem} text="Net Worth" alert />
           </SidebarGroup>
       
           <SidebarGroup title="Investments">
-            <SidebarItem icon={Activity} text="Positions" />
-            <SidebarItem icon={CandlestickChart} text="Trades" />
-            <SidebarItem icon={HousePlus} text="Real Estate" />
+            <SidebarItem icon={Activity} text="Positions" alert />
+            <SidebarItem icon={CandlestickChart} text="Trades" disabled />
+            <SidebarItem icon={HousePlus} text="Real Estate" disabled />
             <SidebarItem icon={TreePalm} text="Retirement" alert />
           </SidebarGroup>
 
