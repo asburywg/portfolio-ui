@@ -7,6 +7,7 @@ https://www.react-graph-gallery.com/
 
 https://www.react-graph-gallery.com/sankey-diagram
 
+https://github.com/anarion80/sankey-finance/tree/main
 
 
 ## Data loading

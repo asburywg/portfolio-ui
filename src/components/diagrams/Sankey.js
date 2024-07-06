@@ -7,6 +7,7 @@ const COLORS = ["#e0ac2b", "#e85252", "#6689c6", "#9a6fb0", "#a53253"];
 const MARGIN_Y = 25;
 const MARGIN_X = 5;
 
+// https://github.com/anarion80/sankey-finance/blob/main/sankey-finance.js
 
 const Sankey = ({ data, width, height }) => {
     const allGroups = [...new Set(data.nodes.map((d) => d.category))].sort();
@@ -66,6 +67,7 @@ const Sankey = ({ data, width, height }) => {
             <text
                 key={i}
                 x={node.x1 + 6}
+                // x={node.x0 < width / 2 ? node.x1 + 6 : node.x0 - 6}
                 y={(node.y1 + node.y0) / 2}
                 dy="0.35rem"
                 textAnchor={"start"}
