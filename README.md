@@ -1,3 +1,8 @@
+## Expanding table
+
+https://www.material-react-table.com/docs/guides/expanding-sub-rows
+
+
 ## Sankey
 
 https://www.npmjs.com/package/d3-sankey

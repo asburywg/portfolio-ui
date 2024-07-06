@@ -37,7 +37,7 @@ function App() {
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
           <SidebarItem icon={Home} text="Home" disabled />
-          <SidebarItem icon={Folder} text="File Summary" alert />
+          <SidebarItem icon={Folder} text="File Summary" />
           <SidebarItem icon={Table} text="Transactions" alert />
           
           <SidebarGroup title="Reports">

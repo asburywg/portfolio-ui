@@ -13,6 +13,7 @@
     "d3-sankey": "^0.12.3",
     "lodash": "^4.17.21",
     "lucide-react": "^0.400.0",
+    "material-react-table": "^2.13.0",
     "nuqs": "^1.17.4",
     "primereact": "^10.7.0",
     "react": "^18.3.1",
