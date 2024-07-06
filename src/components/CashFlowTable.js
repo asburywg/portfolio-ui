@@ -8,7 +8,8 @@ import { formatCurrency } from '../Utils.js';
 
 // TOOD utils
 const formatDateHeader = (dateString) => {
-  const date = new Date(dateString + '-01'); // Add day part to create a valid date
+  const splitter = dateString.split('-');
+  const date = new Date(splitter[0], splitter[1]-1, 1); 
   return date.toLocaleString('default', { month: 'short', year: 'numeric' });
 };
 const res = {
@@ -174,6 +175,7 @@ const CashFlowTable = () => {
       muiTableBodyCellProps: {
         align: (['Category'].includes(col.header)) ? 'left' : 'right'
       },
+      Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
     }));
   }, []);
 
