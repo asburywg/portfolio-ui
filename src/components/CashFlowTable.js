@@ -5,7 +5,6 @@ import {
   MRT_ExpandAllButton
 } from 'material-react-table';
 import { formatCurrency } from '../Utils.js';
-import { Box, Stack } from '@mui/material';
 
 // TOOD utils
 const formatDateHeader = (dateString) => {
