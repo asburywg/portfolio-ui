@@ -34,7 +34,7 @@ const data = [
   {
     "category": "Expenses",
     "2024-03": -4638.75,
-    "2024-03-perc": 10,
+    // "2024-03-perc": 10,
     "2024-04": -6863.8,
     "2024-05": -7591.659999999999,
     "subRows": [
@@ -88,13 +88,13 @@ const headers = [
   {
     "accessorKey": "category",
     "header": "Category",
-    // size: 120,
+    size: 50,
   },
   {
     "accessorKey": "2024-03",
     "header": "2024-03",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    size: 50,
     muiTableBodyCellProps: {
       align: 'right'
     },
@@ -102,23 +102,23 @@ const headers = [
       align: 'right',
     },
   },
-  {
-    "accessorKey": "2024-03-perc",
-    "header": "",
-    // Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 5,
-    muiTableBodyCellProps: {
-      align: 'right'
-    },
-    muiTableHeadCellProps: {
-      align: 'right',
-    },
-  },
+  // {
+  //   "accessorKey": "2024-03-perc",
+  //   "header": "",
+  //   // Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
+  //   size: 5,
+  //   muiTableBodyCellProps: {
+  //     align: 'right'
+  //   },
+  //   muiTableHeadCellProps: {
+  //     align: 'right',
+  //   },
+  // },
   {
     "accessorKey": "2024-04",
     "header": "2024-04",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    size: 50,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -130,7 +130,7 @@ const headers = [
     "accessorKey": "2024-05",
     "header": "2024-05",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    size: 50,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -142,7 +142,7 @@ const headers = [
     "accessorKey": "TTM",
     "header": "TTM",
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
-    size: 20,
+    size: 50,
     muiTableBodyCellProps: {
       align: 'right',
     },
@@ -176,6 +176,7 @@ const CashFlowTable = () => {
     enableFilters: false,
     enableColumnActions: false,
     enablePagination: false,
+    layoutMode: 'fixed',
     initialState: {
       density: 'compact'
     },
