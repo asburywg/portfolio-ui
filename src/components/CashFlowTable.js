@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -75,6 +75,9 @@ const headers = [
     muiTableBodyCellProps: {
       align: 'right'
     },
+    muiTableHeadCellProps: {
+      align: 'right',
+    },
   },
   {
     "accessorKey": "2024-04",
@@ -82,6 +85,9 @@ const headers = [
     Cell: props => <div> {formatCurrency(props.renderedCellValue)} </div>,
     size: 20,
     muiTableBodyCellProps: {
+      align: 'right',
+    },
+    muiTableHeadCellProps: {
       align: 'right',
     },
   },
@@ -93,6 +99,9 @@ const headers = [
     muiTableBodyCellProps: {
       align: 'right',
     },
+    muiTableHeadCellProps: {
+      align: 'right',
+    },
   },
   {
     "accessorKey": "TTM",
@@ -102,17 +111,22 @@ const headers = [
     muiTableBodyCellProps: {
       align: 'right',
     },
+    muiTableHeadCellProps: {
+      align: 'right',
+    },
   }
 ]
 
 
 const CashFlowTable = () => {
 
+  const [visibleColumns, setVisibleColumns] = useState(['category', '2024-03', '2024-04', '2024-05', 'TTM']);
+
   // const columns = useMemo(() => headers, []);
   const columns = useMemo(() => {
-    return headers.map(col => ({
+    return headers.filter(col => visibleColumns.includes(col.accessorKey)).map(col => ({
       ...col,
-      header: !(['TTM', 'Category'].includes(col.header)) ? formatDateHeader(col.header) : col.header
+      header: !(['TTM', 'Category'].includes(col.header)) ? formatDateHeader(col.header) : col.header,
     }));
   }, []);
 
