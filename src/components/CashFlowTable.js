@@ -112,7 +112,7 @@ const CashFlowTable = () => {
   const columns = useMemo(() => {
     return headers.map(col => ({
       ...col,
-      header: (col.header in ['TTM', 'Category']) ? formatDateHeader(col.header) : col.header
+      header: !(['TTM', 'Category'].includes(col.header)) ? formatDateHeader(col.header) : col.header
     }));
   }, []);
 
