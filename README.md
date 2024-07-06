@@ -1,3 +1,10 @@
+## Data loading
+
+https://www.developerway.com/posts/how-to-fetch-data-in-react
+
+
+[use-memo](https://stackoverflow.com/questions/75655503/is-there-a-more-efficient-way-to-handle-filters-in-react)
+
 ## Cache
 
 [axios-cache-interceptor](https://axios-cache-interceptor.js.org/guide/getting-started)

@@ -1,5 +1,5 @@
 
-import ProgressLine from "./subcomponents/ProgressLine";
+import ProgressLine from "./diagrams/ProgressLine";
 
 
 function Module401k({ current_perc, projected_perc, current_amt, proected_amt, limit }) {
