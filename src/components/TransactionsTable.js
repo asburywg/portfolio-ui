@@ -9,7 +9,7 @@ import { Dropdown } from "primereact/dropdown";
 const _ = require("lodash");
 
 const TransactionsTable = ({ paginateRows = 40, filterable }) => {
-  const { transactions, accounts, categories, rollups, updateCategory } = useContext(TransactionContext);
+  const { transactions, accounts, categories, updateCategory } = useContext(TransactionContext);
 
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [selectedAccounts, setSelectedAccounts] = useState([]);
@@ -87,7 +87,7 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
   };
 
   const onCellEditComplete = (e) => {
-    let { rowData, newValue, field, originalEvent: event } = e;
+    let { rowData, newValue, field } = e;
     if (newValue["name"] !== undefined) {  // prevent current category from being lost on dropdown clickoff
       updateCategory(rowData.id, newValue.name);
       rowData[field] = newValue.name;

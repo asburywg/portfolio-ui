@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { setupCache } from 'axios-cache-interceptor';
+// import { setupCache } from 'axios-cache-interceptor';
 
 const api = Axios.create({
   baseURL: "http://localhost:8080",
@@ -8,6 +8,6 @@ const api = Axios.create({
   }
 });
 
-// const api = setupCache(axios);
+// const api = setupCache(axios);  // blocking updates
 
 export default api;

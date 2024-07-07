@@ -1,9 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-  MRT_ExpandAllButton
-} from 'material-react-table';
+import {MaterialReactTable, useMaterialReactTable, MRT_ExpandAllButton as ExpandButton} from 'material-react-table';
 import { formatCurrency } from '../Utils.js';
 import { Box, Stack } from '@mui/material';
 
@@ -63,7 +59,7 @@ const CashFlowTable = () => {
         Header: () => (
           // <MRT_ExpandAllButton table={table} />
           <Stack direction="row" alignItems="center">
-            <MRT_ExpandAllButton table={table} />
+            <ExpandButton table={table} />
             <Box>Category</Box>
           </Stack>
         ),

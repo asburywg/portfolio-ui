@@ -66,7 +66,7 @@ export const ManageTagsDialog = ({ visible, onHide }) => {
 
             <div style={{ marginTop: '30px' }}>
                 {tags.map((tag) => (
-                    editingTag != tag ? (
+                    editingTag !== tag ? (
                         <Chip key={tag} label={tag} removable removeIcon="pi pi-pencil" className="p-mr-2" style={{ margin: '5px', fontSize: '15px' }} onRemove={() => tagEditing(tag)} />
                     ) : (
                         <>

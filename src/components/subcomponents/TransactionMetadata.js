@@ -22,18 +22,18 @@ export const TransactionsMetadata = ({ transaction, collapse }) => {
         defaultValues: useMemo(() => {
             return transaction;
         }, [transaction])
-    }, []);
+    });
 
     useEffect(() => {
         setRemainingTagOptions(fullTagList.filter(tag => !transactionTags.some(transactionTag => transactionTag === tag)));
-    }, [transactionTags, fullTagList]);
+    }, [transactionTags, fullTagList, form]);
 
 
     useEffect(() => {
         setFullTagList(tags);
         setTransactionTags(transaction.tags);
         form.reset(transaction);
-    }, [transaction, tags]);
+    }, [transaction, tags, form]);
 
     const onSubmit = (data) => {
         data['tags'] = transactionTags;
