@@ -1,5 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import TransactionService from '../services/TransactionsService';
+// setError(err.message);
+// const [error, setError] = useState(null);
+
 
 const TransactionContext = createContext();
 
@@ -11,15 +14,16 @@ const TransactionProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [rollups, setRollups] = useState([]);
 
-  
-  // filtered
-  const [filteredTransactions, setFilteredTransactions] = useState([]);
-
-  const fetchTags = async () => {
+  // GETTERS
+  const fetchTransactions = async () => {
     try {
-      const data = await TransactionService.getTags();
-      setTags(data);
+      const data = await TransactionService.getTransactions();
+      setTransactions(data);
+      // TODO fetch from API
+      const accounts = [...new Set(transactions.map(tns => tns.account))];
+      setAccounts(accounts);
     } catch (err) {
+
       console.log(err);
     }
   };
@@ -35,29 +39,16 @@ const TransactionProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchTransactions = async () => {
-      try {
-        const data = await TransactionService.getTransactions();
-        setTransactions(data);
-      } catch (err) {
-        // setError(err.message);
-        // const [error, setError] = useState(null);
-        console.log(err);
-      }
-    };
+  const fetchTags = async () => {
+    try {
+      const data = await TransactionService.getTags();
+      setTags(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    fetchTransactions();
-    fetchTags();
-    fetchCategories();
-  }, []);
-
-  // TODO fetch from API
-  useEffect(() => {
-    setFilteredTransactions(transactions);
-    const accounts = [...new Set(transactions.map(tns => tns.account))];
-    setAccounts(accounts);
-  }, [transactions]);
+  // CREATE
 
   const createTag = async (tag) => {
     try {
@@ -68,20 +59,11 @@ const TransactionProvider = ({ children }) => {
     }
   };
 
+  // UPDATE
 
   const updateTag = async (tag, name) => {
     try {
       await TransactionService.updateTag(tag, name);
-      fetchTags();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-
-  const deleteTag = async (tag) => {
-    try {
-      await TransactionService.deleteTag(tag);
       fetchTags();
     } catch (err) {
       console.log(err);
@@ -105,16 +87,37 @@ const TransactionProvider = ({ children }) => {
   };
 
 
+  // DELETE
+
+  const deleteTag = async (tag) => {
+    try {
+      await TransactionService.deleteTag(tag);
+      fetchTags();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
+  // ON LOAD
+
+
+  useEffect(() => {
+    fetchTransactions();
+    fetchTags();
+    fetchCategories();
+  }, []);
+
+
   return (
     <TransactionContext.Provider value={{
       transactions,
       accounts,
       tags,
-      filteredTransactions,
       categories,
       rollups,
       updateCategory,
-      setFilteredTransactions,
       createTag,
       updateTag,
       deleteTag,
