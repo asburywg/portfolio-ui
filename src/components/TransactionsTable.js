@@ -9,7 +9,6 @@ import { TransactionsMetadata } from './subcomponents/TransactionMetadata.js';
 import { Dropdown } from "primereact/dropdown";
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { Search } from "lucide-react";
 import { FilterMatchMode } from 'primereact/api';
 
 // const _ = require("lodash"); // impove performance? 
