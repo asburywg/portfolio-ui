@@ -163,10 +163,13 @@ const TransactionsTable = ({ paginateRows = 40, filterable, slim }) => {
     }
   };
 
+  // TODO: fix category dropdown hidden by table
+  // tableStyle={{minHeight: '95vh'}}
+
   // DATATABLE COMPONENT
   return (
-    <DataTable className="lightfont h-full min-h-full w-full" scrollable scrollHeight="100%"
-      value={filteredTransactions} dataKey="id" sortField='date' sortOrder={1} removableSort sortMode="multiple"
+    <DataTable className="lightfont h-full min-h-full w-full" scrollable scrollHeight="100%" 
+      value={filteredTransactions} dataKey="id" sortField='date' sortOrder={1} removableSort sortMode="multiple" 
       paginator rows={paginateRows}
       header={filterable && renderHeader}
       editMode='cell'

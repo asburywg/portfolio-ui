@@ -23,7 +23,7 @@ const TransactionProvider = ({ children }) => {
   // GETTERS
   const fetchTransactions = async () => {
     try {
-      const data = await TransactionService.getTransactions();
+      const data = await TransactionService.getTransactions(null, null);
       setTransactions(data);
       // TODO fetch from API
       const accounts = [...new Set(data.map(tns => tns.account))];
