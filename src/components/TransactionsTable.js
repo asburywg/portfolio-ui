@@ -61,8 +61,8 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
       const tagFilter = selectedTags.length === 0 || transaction.tags.some(r => selectedTags.includes(r));
       const accountFilter = selectedAccounts.length === 0 || selectedAccounts.some(acc => transaction.account === acc);
       const categoryFilter = selectedCategories.length === 0 || selectedCategories.some(cat => transaction.category === cat.name);
-      const monthFilter = selectedMonth == null || transaction.month == selectedMonth;
-      const rollupFilter = selectedRollup == null || transaction.rollup == selectedRollup;
+      const monthFilter = selectedMonth === null || transaction.month === selectedMonth;
+      const rollupFilter = selectedRollup === null || transaction.rollup === selectedRollup;
       return accountFilter && tagFilter && categoryFilter && rollupFilter && monthFilter;
     });
     setFilteredTransactions(filtered);
@@ -166,7 +166,7 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
 
   // DATATABLE COMPONENT
   return (
-    <DataTable className="lightfont h-full min-h-full w-full" size='small' scrollable scrollHeight="100%"
+    <DataTable className="lightfont h-full min-h-full w-full" scrollable scrollHeight="100%"
       value={filteredTransactions} dataKey="id" sortField='date' sortOrder={1} removableSort sortMode="multiple"
       paginator rows={paginateRows}
       header={filterable && renderHeader}

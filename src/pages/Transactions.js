@@ -1,4 +1,4 @@
-import { TabView, TabPanel } from "../layout/Tabs.js";
+// import { TabView, TabPanel } from "../layout/Tabs.js";
 import { TransactionsTable } from "../components/TransactionsTable.js"
 import { TransactionProvider } from '../context/TransactionContext';
 import {DatePagination} from '../components/subcomponents/DatePagination.js';
@@ -13,11 +13,14 @@ export default function Transactions() {
 
                     <DatePagination />
 
-                    <CashFlowSummary/>
+                    <div style={{width: '30%', height: '100%', marginLeft: '10px', marginRight: '20px', marginTop: '-25px', position:'relative', zIndex: 2}}>
+                        <CashFlowSummary/>
+                    </div>
 
-                    {/* <div className="h-3/4 w-11/12 mx-auto mt-0"> */}
-                        {/* <TransactionsTable filterable /> */}
-                    {/* </div> */}
+                    <div className="h-3/4 w-11/12 mx-auto mt-0">
+                        <TransactionsTable filterable />
+                    </div>
+
                 </div>
             </div>
         </TransactionProvider>

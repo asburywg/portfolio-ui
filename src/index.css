@@ -52,3 +52,42 @@
   font-size: calc(10px + 2vmin);
   color: white;
 } */
+
+
+.Expenses { 
+  /* background-color: #D9A0A0; */
+  font-weight: bold;
+  background-color: #F5F5F5;
+  height: 50px;
+}
+
+.Income { 
+  /* background-color: #a6d7a6; */
+  font-weight: bold;
+  background-color: #F5F5F5;
+  height: 50px;
+}
+
+.Net_Profit { 
+  /* background-color: #a6d7a6; */
+  font-weight: bold;
+  background-color: #F5F5F5;
+  height: 50px;
+}
+
+.Net_Income td { 
+  border-top-width: 1px;
+  border-top-color: black;
+  border-top-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+  border-bottom-style: solid;
+  font-weight: bold;
+  background-color: #F5F5F5;
+  height: 40px;
+}
+
+.Other { 
+  font-style: italic;
+  height: 40px;
+}

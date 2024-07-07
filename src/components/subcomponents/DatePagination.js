@@ -42,7 +42,7 @@ const DatePagination = () => {
     useEffect(() => {
         // set initial date on load
         setSelectedMonth(dateOptions[dateIdx]);
-    }, [dateOptions]);
+    });
 
     const onDateChange = (e) => {
         setDateIdx(e.page);
