@@ -20,7 +20,7 @@ const TransactionProvider = ({ children }) => {
       const data = await TransactionService.getTransactions();
       setTransactions(data);
       // TODO fetch from API
-      const accounts = [...new Set(transactions.map(tns => tns.account))];
+      const accounts = [...new Set(data.map(tns => tns.account))];
       setAccounts(accounts);
     } catch (err) {
 

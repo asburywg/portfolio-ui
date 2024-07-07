@@ -14,8 +14,9 @@ import { FilterMatchMode } from 'primereact/api';
 
 // const _ = require("lodash"); // impove performance? 
 
+
 const TransactionsTable = ({ paginateRows = 40, filterable }) => {
-  const { transactions, accounts, categories, rollups, updateCategory } = useContext(TransactionContext);
+  const { transactions, accounts, categories, rollups, tags, updateCategory } = useContext(TransactionContext);
 
   // table state
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -34,8 +35,23 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
   const [selectedRollup, setSelectedRollup] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
 
+  const groupCategories = (option) => {
+    return (
+      <div className="flex align-items-center">
+        <div>{option.name || option.optionGroup.name}</div>
+      </div>
+    );
+  };
 
   // FILTERABLE
+
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+    _filters['global'].value = value;
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
 
   const filterTransactions = ({ selectedTags = [], selectedAccounts = [], selectedCategories = [], selectedRollup = null }) => {
     const filtered = transactions.filter(transaction => {
@@ -49,38 +65,52 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
     setFilteredTransactions(filtered);
   };
 
-  // <MultiSelect
-  // className="custom-multi-select"
-  // value={selectedAccounts}
-  // options={accounts.map(acc => ({ label: acc, value: acc }))}
-  // onChange={(e) => filterTransactions(e.value)}
-  // maxSelectedLabels={1} placeholder="Select Accounts"
-  // resetFilterOnHide={true} filter filterPlaceholder='Search' />
-
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    // let _filters = { ...filters };
-    // _filters['global'].value = value;
-    // setFilters(_filters);
-    setGlobalFilterValue(value);
+  const handleAccountChange = (e) => {
+    setSelectedAccounts(e.value);
+    filterTransactions({ selectedAccounts: e.value });
   };
 
+  const handleTagChange = (e) => {
+    setSelectedTags(e.value);
+    filterTransactions({ selectedTags: e.value });
+  };
+
+  const handleRollupChange = (e) => {
+    setSelectedRollup(e.value || null);
+    filterTransactions({ selectedRollup: e.value });
+  };
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategories(e.value);
+    filterTransactions({ selectedCategories: e.value });
+  };
+
+  const clearFilters = () => {
+    setSelectedTags([]);
+    setSelectedAccounts([]);
+    setSelectedCategories([]);
+    setSelectedRollup(null);
+    setGlobalFilterValue('');
+    let _filters = { ...filters };
+    _filters['global'].value = null;
+    setFilters(_filters);
+    filterTransactions({});
+  };
 
   const renderHeader = () => {
     return (
       <>
-       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" />
-          {/* <Dropdown value={selectedMonth} options={months} onChange={handleMonthChange} placeholder="Select Month" showClear /> */}
-          {/* <MultiSelect value={selectedAccounts} options={accounts.map(tag => ({ label: tag, value: tag }))} onChange={handleAccountChange} maxSelectedLabels={1} placeholder="Select Accounts" resetFilterOnHide={true} filter /> */}
-          {/* <MultiSelect value={selectedTags} options={tags.map(tag => ({ label: tag, value: tag }))} onChange={handleTagChange} display="chip" placeholder="Select Tags" resetFilterOnHide={true} showClear={true} filter /> */}
-          {/* <Dropdown value={selectedRollup} options={rollups} onChange={handleRollupChange} placeholder="Select Rollup" showClear /> */}
-          {/* <MultiSelect disabled={selectedRollup!==null} maxSelectedLabels={1} value={selectedCategories} options={categories} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupedItemTemplate} placeholder="Select Categories" resetFilterOnHide={true} filter /> */}
-          {/* <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilters} /> */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignContent: 'center' }} className='mx-9 my-1'>
+            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='h-9' />
+            {/* <Dropdown value={selectedMonth} options={months} onChange={handleMonthChange} placeholder="Select Month" showClear /> */}
+            <MultiSelect value={selectedAccounts} options={accounts.map(tag => ({ label: tag, value: tag }))} onChange={handleAccountChange} maxSelectedLabels={1} placeholder="Select Accounts" resetFilterOnHide={true} filter className='h-9 items-center' />
+            <MultiSelect value={selectedTags} options={tags.map(tag => ({ label: tag, value: tag }))} onChange={handleTagChange} display="chip" placeholder="Select Tags" resetFilterOnHide={true} showClear={true} filter className='h-9 items-center' />
+            <Dropdown value={selectedRollup} options={rollups} onChange={handleRollupChange} placeholder="Select Rollup" showClear className='h-9 items-center' />
+            <MultiSelect disabled={selectedRollup !== null} maxSelectedLabels={1} value={selectedCategories} options={categories} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupCategories} placeholder="Select Categories" resetFilterOnHide={true} filter className='h-9 items-center' />
+            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilters} className='h-9' />
+          </div>
         </div>
-      </div>
       </>
     )
   };
@@ -101,13 +131,6 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
   };
 
   // CATEGORY EDITOR
-  const groupCategories = (option) => {
-    return (
-      <div className="flex align-items-center">
-        <div>{option.optionGroup.name}</div>
-      </div>
-    );
-  };
 
   const categoryEditor = (props) => {
     console.log(categories)
