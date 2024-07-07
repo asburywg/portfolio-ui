@@ -35,12 +35,20 @@ const formatCurrency = (data) => {
     return "$0.00"
   }
   return data.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-}
+};
+
+const formatPercent = (data) => {
+  if (!data) {
+      return ""
+  }
+  return data.toLocaleString('en-US', { style: 'percent', maximumFractionDigits: 2, minimumFractionDigits: 2 });
+};
 
 
 export {
   formatDateMonth,
   formatDate,
   formatCurrency,
-  formatDateMonthDay
+  formatDateMonthDay,
+  formatPercent
 };

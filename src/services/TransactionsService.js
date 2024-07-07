@@ -87,6 +87,16 @@ class TransactionService {
     }
   }
 
+  async getCashFlowSummary() {
+    try {
+      const response = await api.get('/reports/v2/cashflow');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching cash flow summary', error);
+      throw error;
+    }
+  }
+
 }
 
 const transactionServiceInstance = new TransactionService();

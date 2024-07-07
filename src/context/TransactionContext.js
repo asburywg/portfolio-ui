@@ -14,6 +14,8 @@ const TransactionProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [rollups, setRollups] = useState([]);
 
+  const [cashFlowSummary, setCashFlowSummary] = useState({});
+
   // date filter
   const [selectedMonth, setSelectedMonth] = useState(null);
 
@@ -47,6 +49,16 @@ const TransactionProvider = ({ children }) => {
     try {
       const data = await TransactionService.getTags();
       setTags(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCashFlowSummary = async () => {
+    try {
+      const data = await TransactionService.getCashFlowSummary();
+      // data['timeseries']
+      setCashFlowSummary(data['data']);
     } catch (err) {
       console.log(err);
     }
@@ -111,6 +123,7 @@ const TransactionProvider = ({ children }) => {
     fetchTransactions();
     fetchTags();
     fetchCategories();
+    fetchCashFlowSummary();
   }, []);
 
 
@@ -122,12 +135,14 @@ const TransactionProvider = ({ children }) => {
       categories,
       rollups,
       selectedMonth,
+      cashFlowSummary,
       setSelectedMonth,
       updateCategory,
       createTag,
       updateTag,
       deleteTag,
-      updateMetadata
+      updateMetadata,
+      fetchCashFlowSummary,
     }}>
       {children}
     </TransactionContext.Provider>
