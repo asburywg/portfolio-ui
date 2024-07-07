@@ -30,8 +30,8 @@ const CashFlowSummary = () => {
             <DataTable className="lightfont -my-2" showHeaders={false} style={{ width: "100%" }} value={data.breakdown} size='small'
                 selectionMode="single" selection={selected} onSelectionChange={(e) => setSelected(e.value)}
                 expandedRows={subExpandedRows} rowExpansionTemplate={rowExpansionTemplate} onRowToggle={(e) => setSubExpandedRows(e.data)} scrollable scrollHeight="500px">
-                <Column expander={allowExpansion} style={{ width: '8%', border: "0px" }} />
-                <Column field="name" style={{ width: '40%', border: "0px" }}></Column>
+                <Column expander={allowExpansion} style={{ width: '0%', border: "0px" }} />
+                <Column field="name" style={{ width: '45%', border: "0px" }}></Column>
                 <Column field="total" body={(row) => formatCurrency(row.total)} style={{ width: '30%', border: "0px" }} align='right'></Column>
                 <Column field="perc" body={(row) => formatPercent(row.perc)} style={{ marginLeft: '10rem', border: "0px" }} align='right'></Column>
             </DataTable>

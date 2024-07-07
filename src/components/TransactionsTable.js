@@ -14,7 +14,7 @@ import { FilterMatchMode } from 'primereact/api';
 // const _ = require("lodash"); // impove performance? 
 
 
-const TransactionsTable = ({ paginateRows = 40, filterable }) => {
+const TransactionsTable = ({ paginateRows = 40, filterable, slim }) => {
   const { transactions, accounts, categories, rollups, tags, updateCategory, selectedMonth } = useContext(TransactionContext);
 
   // table state
@@ -104,14 +104,13 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
     return (
       <>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignContent: 'center' }} className='mx-9 my-1'>
-            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='h-9' />
-            {/* <Dropdown value={selectedMonth} options={months} onChange={handleMonthChange} placeholder="Select Month" showClear /> */}
-            <MultiSelect value={selectedAccounts} options={accounts.map(tag => ({ label: tag, value: tag }))} onChange={handleAccountChange} maxSelectedLabels={1} placeholder="Select Accounts" resetFilterOnHide={true} filter className='h-9 items-center' />
-            <MultiSelect value={selectedTags} options={tags.map(tag => ({ label: tag, value: tag }))} onChange={handleTagChange} display="chip" placeholder="Select Tags" resetFilterOnHide={true} showClear={true} filter className='h-9 items-center' />
-            <Dropdown value={selectedRollup} options={rollups} onChange={handleRollupChange} placeholder="Select Rollup" showClear className='h-9 items-center' />
-            <MultiSelect disabled={selectedRollup !== null} maxSelectedLabels={1} value={selectedCategories} options={categories} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupCategories} placeholder="Select Categories" resetFilterOnHide={true} filter className='h-9 items-center' />
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilters} className='h-9' />
+          <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignContent: 'center' }} className='mx-4 my-1 w-1/6'>
+            <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='h-9 w-1/6' />
+            <MultiSelect value={selectedAccounts} options={accounts.map(tag => ({ label: tag, value: tag }))} onChange={handleAccountChange} maxSelectedLabels={1} placeholder="Accounts" resetFilterOnHide={true} filter className='h-9 w-1/6 items-center' />
+            <MultiSelect value={selectedTags} options={tags.map(tag => ({ label: tag, value: tag }))} onChange={handleTagChange} display="chip" placeholder="Tags" resetFilterOnHide={true} showClear={true} filter className='h-9 w-1/6 items-center' />
+            <Dropdown value={selectedRollup} options={rollups} onChange={handleRollupChange} placeholder="Rollup" showClear className='h-9 w-1/6 items-center' />
+            <MultiSelect disabled={selectedRollup !== null} maxSelectedLabels={1} value={selectedCategories} options={categories} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupCategories} placeholder="Categories" resetFilterOnHide={true} filter className='h-9 w-1/6 items-center' />
+            <Button type="button" icon="pi pi-filter-slash" label={slim ? "" : "Clear"} outlined onClick={clearFilters} className='h-9 w-12' />
           </div>
         </div>
       </>
@@ -175,7 +174,7 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
       globalFilterFields={['description', 'category', 'tags', 'notes', 'amount']} filters={filters}
     >
       <Column field="date" header="Date" sortable style={{ width: '15%' }} body={(row) => formatDate(row.date)}></Column>
-      <Column field="account" header="Account" sortable style={{ width: '15%' }}></Column>
+      {!slim && <Column field="account" header="Account" sortable style={{ width: '15%' }}></Column>}
       <Column field="description" header="Description" sortable style={{ width: '45%' }}></Column>
       <Column field="category" header="Category" sortable editor={categoryEditor} onCellEditComplete={onCellEditComplete} style={{ width: '20%' }}></Column>
       <Column field="amount" header="Amount" sortable body={(row) => formatCurrency(row.amount)} style={{ textAlign: 'right', width: '5%' }}></Column>

@@ -1,7 +1,7 @@
 // import { TabView, TabPanel } from "../layout/Tabs.js";
 import { TransactionsTable } from "../components/TransactionsTable.js"
 import { TransactionProvider } from '../context/TransactionContext';
-import {DatePagination} from '../components/subcomponents/DatePagination.js';
+import { DatePagination } from '../components/subcomponents/DatePagination.js';
 import { CashFlowSummary } from "../components/CashFlowSummary.js";
 
 export default function Transactions() {
@@ -9,20 +9,25 @@ export default function Transactions() {
     return (
         <TransactionProvider>
             <div className="flex flex-col h-screen">
-                <div className="flex-1 overflow-hidden">
+                {/* <div className="flex-1 overflow-hidden h-full"> */}
 
                     <DatePagination />
 
-                    <div style={{width: '30%', height: '100%', marginLeft: '10px', marginRight: '20px', marginTop: '-25px', position:'relative', zIndex: 2}}>
-                        <CashFlowSummary/>
+                    <div className="h-full flex w-full overflow-x-hidden">
+                        
+                        <div className="h-full w-1/4 -mt-0 mx-10">
+                            <CashFlowSummary />
+                        </div>
+
+                        <div className="h-3/4 w-full mx-auto mt-0">
+                            <TransactionsTable filterable slim />
+                        </div>
+
                     </div>
 
-                    <div className="h-3/4 w-11/12 mx-auto mt-0">
-                        <TransactionsTable filterable />
-                    </div>
 
                 </div>
-            </div>
+            {/* </div> */}
         </TransactionProvider>
         // <TabView>
         //     <TabPanel header="Mint">
