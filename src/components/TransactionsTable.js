@@ -15,7 +15,7 @@ import { FilterMatchMode } from 'primereact/api';
 
 
 const TransactionsTable = ({ paginateRows = 40, filterable }) => {
-  const { transactions, accounts, categories, rollups, tags, updateCategory } = useContext(TransactionContext);
+  const { transactions, accounts, categories, rollups, tags, updateCategory, selectedMonth } = useContext(TransactionContext);
 
   // table state
   const [filteredTransactions, setFilteredTransactions] = useState([]);
@@ -25,6 +25,9 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
     setFilteredTransactions(transactions);
   }, [transactions]);
 
+  useEffect(() => {
+    filterTransactions({selectedTags: selectedTags, selectedAccounts: selectedAccounts, selectedCategories: selectedCategories, selectedRollup: selectedRollup});
+  }, [selectedMonth]);
 
   // filters
   const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } });
@@ -52,14 +55,15 @@ const TransactionsTable = ({ paginateRows = 40, filterable }) => {
     setGlobalFilterValue(value);
   };
 
+  // TODO refactor into individual filters, returning first true
   const filterTransactions = ({ selectedTags = [], selectedAccounts = [], selectedCategories = [], selectedRollup = null }) => {
     const filtered = transactions.filter(transaction => {
       const tagFilter = selectedTags.length === 0 || transaction.tags.some(r => selectedTags.includes(r));
       const accountFilter = selectedAccounts.length === 0 || selectedAccounts.some(acc => transaction.account === acc);
       const categoryFilter = selectedCategories.length === 0 || selectedCategories.some(cat => transaction.category === cat.name);
-      // const monthFilter = selectedMonth == null || transaction.month == selectedMonth;
+      const monthFilter = selectedMonth == null || transaction.month == selectedMonth;
       const rollupFilter = selectedRollup == null || transaction.rollup == selectedRollup;
-      return accountFilter && tagFilter && categoryFilter && rollupFilter;
+      return accountFilter && tagFilter && categoryFilter && rollupFilter && monthFilter;
     });
     setFilteredTransactions(filtered);
   };

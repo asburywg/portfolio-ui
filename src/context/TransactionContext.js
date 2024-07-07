@@ -14,6 +14,10 @@ const TransactionProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [rollups, setRollups] = useState([]);
 
+  // date filter
+  const [selectedMonth, setSelectedMonth] = useState(null);
+
+
   // GETTERS
   const fetchTransactions = async () => {
     try {
@@ -117,6 +121,8 @@ const TransactionProvider = ({ children }) => {
       tags,
       categories,
       rollups,
+      selectedMonth,
+      setSelectedMonth,
       updateCategory,
       createTag,
       updateTag,
