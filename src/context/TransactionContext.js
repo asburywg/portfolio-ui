@@ -8,7 +8,10 @@ const TransactionProvider = ({ children }) => {
   const [transactions, setTransactions] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [tags, setTags] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [rollups, setRollups] = useState([]);
 
+  
   // filtered
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
@@ -16,6 +19,17 @@ const TransactionProvider = ({ children }) => {
     try {
       const data = await TransactionService.getTags();
       setTags(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const data = await TransactionService.getCategories();
+      setCategories(data);
+      const rollups = [...new Set(data.map(cat => cat.name))];
+      setRollups(rollups);
     } catch (err) {
       console.log(err);
     }
@@ -35,6 +49,7 @@ const TransactionProvider = ({ children }) => {
 
     fetchTransactions();
     fetchTags();
+    fetchCategories();
   }, []);
 
   // TODO fetch from API
@@ -81,6 +96,14 @@ const TransactionProvider = ({ children }) => {
     }
   };
 
+  const updateCategory = async (id, category) => {
+    try {
+      await TransactionService.updateCategory(id, category);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <TransactionContext.Provider value={{
@@ -88,6 +111,9 @@ const TransactionProvider = ({ children }) => {
       accounts,
       tags,
       filteredTransactions,
+      categories,
+      rollups,
+      updateCategory,
       setFilteredTransactions,
       createTag,
       updateTag,

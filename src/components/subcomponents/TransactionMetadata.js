@@ -22,7 +22,7 @@ export const TransactionsMetadata = ({ transaction, collapse }) => {
         defaultValues: useMemo(() => {
             return transaction;
         }, [transaction])
-    });
+    }, []);
 
     useEffect(() => {
         setRemainingTagOptions(fullTagList.filter(tag => !transactionTags.some(transactionTag => transactionTag === tag)));

@@ -67,6 +67,25 @@ class TransactionService {
     }
   }
 
+  async getCategories() {
+    try {
+      const response = await api.get('/categories/');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching categories', error);
+      throw error;
+    }
+  }
+
+  async updateCategory(id, category) {
+    try {
+      const response = await api.put(`/transactions/${id}`, {"category": category});
+      return response.data;
+    } catch (error) {
+      console.error('Error updating transaction category', error);
+      throw error;
+    }
+  }
 
 }
 
