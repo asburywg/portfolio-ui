@@ -17,6 +17,57 @@ class TransactionService {
     }
   }
 
+  async getTags() {
+    try {
+      const response = await api.get('/tags/');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tags', error);
+      throw error;
+    }
+  }
+
+  async createTag(tag) {
+    try {
+      const response = await api.post('/tags/', {"tag": tag});
+      return response.data;
+    } catch (error) {
+      console.error('Error creating tags', error);
+      throw error;
+    }
+  }
+
+  async updateTag(tag, name) {
+    try {
+      const response = await api.put(`/tags/${tag}`, {"name": name});
+      return response.data;
+    } catch (error) {
+      console.error('Error updating tag', error);
+      throw error;
+    }
+  }
+
+  async deleteTag(tag) {
+    try {
+      const response = await api.delete(`/tags/${tag}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting tag', error);
+      throw error;
+    }
+  }
+
+  async updateMetadata(transaction) {
+    try {
+      const response = await api.put(`/transactions/${transaction['id']}`, transaction);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating transaction', error);
+      throw error;
+    }
+  }
+
+
 }
 
 const transactionServiceInstance = new TransactionService();
