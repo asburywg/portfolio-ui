@@ -21,15 +21,35 @@ const TransactionsTable = ({ paginateRows = 40, filterable, slim }) => {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [expandedRow, setExpandedRow] = useState([]);
 
+  // option values
+  const [categoriesOptions, setCategoriesOptions] = useState([]);
+  const [rollupOptions, setRollupOptions] = useState([]);
+
+  const filterFilterOptions = (transactions) => {
+    // filter options based on filters
+    const transactionCategories = new Set(transactions.map(tns => tns.category));
+    const filteredCategories = categories.map(category => ({
+      ...category,
+      subcategories: category.subcategories.filter(subcategory =>
+        transactionCategories.has(subcategory.name)
+    )})).filter(category => category.subcategories.length > 0);
+
+    const transactionRollup = new Set(transactions.map(tns => tns.rollup));
+    const filteredRollup = rollups.filter(rollup => transactionRollup.has(rollup));
+    setRollupOptions(filteredRollup);
+    setCategoriesOptions(filteredCategories);
+  };
+
   useEffect(() => {
     setFilteredTransactions(transactions);
+    filterFilterOptions(transactions);
   }, [transactions]);
 
   useEffect(() => {
     filterTransactions({selectedTags: selectedTags, selectedAccounts: selectedAccounts, selectedCategories: selectedCategories, selectedRollup: selectedRollup});
   }, [selectedMonth]);
 
-  // filters
+  // filtered values
   const [filters, setFilters] = useState({ global: { value: null, matchMode: FilterMatchMode.CONTAINS } });
   const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [selectedAccounts, setSelectedAccounts] = useState([]);
@@ -66,6 +86,7 @@ const TransactionsTable = ({ paginateRows = 40, filterable, slim }) => {
       return accountFilter && tagFilter && categoryFilter && rollupFilter && monthFilter;
     });
     setFilteredTransactions(filtered);
+    // filterFilterOptions(filtered);
   };
 
   const handleAccountChange = (e) => {
@@ -108,8 +129,9 @@ const TransactionsTable = ({ paginateRows = 40, filterable, slim }) => {
             <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Search" className='h-9 w-1/6' />
             <MultiSelect value={selectedAccounts} options={accounts.map(tag => ({ label: tag, value: tag }))} onChange={handleAccountChange} maxSelectedLabels={1} placeholder="Accounts" resetFilterOnHide={true} filter className='h-9 w-1/6 items-center' />
             <MultiSelect value={selectedTags} options={tags.map(tag => ({ label: tag, value: tag }))} onChange={handleTagChange} display="chip" placeholder="Tags" resetFilterOnHide={true} showClear={true} filter className='h-9 w-1/6 items-center' />
-            <Dropdown value={selectedRollup} options={rollups} onChange={handleRollupChange} placeholder="Rollup" showClear className='h-9 w-1/6 items-center' />
-            <MultiSelect disabled={selectedRollup !== null} maxSelectedLabels={1} value={selectedCategories} options={categories} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupCategories} placeholder="Categories" resetFilterOnHide={true} filter className='h-9 w-1/6 items-center' />
+            <Dropdown value={selectedRollup} options={rollupOptions} onChange={handleRollupChange} placeholder="Rollup" showClear className='h-9 w-1/6 items-center' />
+            {/* https://github.com/primefaces/primereact/issues/6678 */}
+            <MultiSelect disabled={selectedRollup !== null} maxSelectedLabels={1} value={selectedCategories} options={categoriesOptions} optionLabel="name" optionGroupLabel="name" onChange={handleCategoryChange} optionGroupChildren="subcategories" optionGroupTemplate={groupCategories} placeholder="Categories" resetFilterOnHide={true} filter className='h-9 w-1/6 items-center' />
             <Button type="button" icon="pi pi-filter-slash" label={slim ? "" : "Clear"} outlined onClick={clearFilters} className='h-9 w-12' />
           </div>
         </div>

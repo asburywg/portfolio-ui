@@ -6,12 +6,13 @@ import FileSummary from "./pages/FileSummary"
 import Transactions from "./pages/Transactions"
 import Retirement from "./pages/Retirement"
 import CashFlow from "./pages/CashFlow"
+import TransactionsFull from "./pages/TransactionsFull"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Transactions");
+  const [activeItem, setActiveItem] = useState("File Summary");
 
 
   const renderContent = () => {
@@ -22,6 +23,8 @@ function App() {
           return <FileSummary />;
         case "Transactions":
           return <Transactions />;
+        case "TransactionsFull":
+          return <TransactionsFull />;
         case "Retirement":
           return <Retirement />;
         case "Cash Flow":
@@ -39,6 +42,7 @@ function App() {
           <SidebarItem icon={Home} text="Home" disabled />
           <SidebarItem icon={Folder} text="File Summary" />
           <SidebarItem icon={Table} text="Transactions" alert />
+          <SidebarItem icon={Table} text="TransactionsFull" alert />
           
           <SidebarGroup title="Reports">
             <SidebarItem icon={Banknote} text="Cash Flow" alert />

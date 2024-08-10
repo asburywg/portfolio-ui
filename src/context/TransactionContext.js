@@ -123,7 +123,7 @@ const TransactionProvider = ({ children }) => {
     fetchTransactions();
     fetchTags();
     fetchCategories();
-    fetchCashFlowSummary();
+    // fetchCashFlowSummary();
   }, []);
 
 
