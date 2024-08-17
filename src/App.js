@@ -12,7 +12,7 @@ const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("File Summary");
+  const [activeItem, setActiveItem] = useState("Home");
 
 
   const renderContent = () => {
@@ -39,7 +39,7 @@ function App() {
       <div className="flex">
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
-          <SidebarItem icon={Home} text="Home" disabled />
+          <SidebarItem icon={Home} text="Home" />
           <SidebarItem icon={Folder} text="File Summary" />
           <SidebarItem icon={Table} text="Transactions" alert />
           <SidebarItem icon={Table} text="TransactionsFull" alert />
