@@ -25,20 +25,24 @@ const AccountLinkPopup = ({ visible, account, onHide }) => {
     const [checked, setChecked] = useState(true);
 
     const options = {"account_type": ["cash", "liability", "brokerage", "revenue"], "account_subtype": {"cash": ["checking", "savings"], "liability": ["credit_card", "mortgage"], "brokerage": ["individual", "401k", "ira"], "revenue": ["paystubs"]}, "tax_classification": {"401k": ["roth", "traditional"], "ira": ["roth", "traditional", "inherited"]}, "delegation": ["Individual"]};
-    const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
-
+    const account_options = {"Checking": ["American Express", "Chase", "Wealthfront"], "Savings": ["Ally"], "Credit Card": ["Apple Card", "Chase Southwest", "PNC Cash Rewards", "Target RedCard"], "Paystubs": ["Nielsen"], "Mortgage": ["Chase"], "Brokerage": ["Fidelity", "Robinhood", "Titan"]}
     return (
         <Dialog visible={visible} onHide={onHide} modal header={account.account_name} className='w-1/3 h-2/5' draggable={false}>
 
             <div class="px-5 mx-auto grid grid-cols-2 gap-x-10 gap-y-10 content-start my-5">
 
-                <FloatLabel>
+                
+                {!accountType && <FloatLabel>
+                    <Dropdown id="account_type" value={accountType} onChange={(e) => setAccountType(e.value)} options={Object.keys(account_options)} className="w-full md:w-14rem" />
+                    <label htmlFor="account_type">Account Type</label>
+                </FloatLabel>}
+                {accountType && <FloatLabel>
+                    <Dropdown id="institution" value={institution} onChange={(e) => setInstitution(e.value)} options={account_options[accountType]} className="w-full md:w-14rem" />
+                    <label htmlFor="institution">Institution</label>
+                </FloatLabel>}
+
+
+                {/* <FloatLabel>
                     <InputText id="institution" value={institution} onChange={(e) => setInstitution(e.target.value)} className="w-full md:w-14rem" />
                     <label htmlFor="institution">Institution</label>
                 </FloatLabel>
@@ -61,7 +65,7 @@ const AccountLinkPopup = ({ visible, account, onHide }) => {
                 <FloatLabel>
                     <Dropdown id="test" value={taxClassification} disabled={!accountSubtype || !options['tax_classification'].hasOwnProperty(accountSubtype)} onChange={(e) => setTaxClassification(e.value)} options={options['tax_classification'][accountSubtype]} className="w-full md:w-14rem" />
                     <label htmlFor="test">Tax Classification</label>
-                </FloatLabel>
+                </FloatLabel> */}
             </div>
             
         </Dialog>
