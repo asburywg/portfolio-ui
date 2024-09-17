@@ -4,7 +4,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column'
 import { formatDateMonth, formatDateMonthDay } from '../Utils.js'
 import { Tooltip } from 'primereact/tooltip';
-import { ReportService } from '../services/ReportService.js'
+import { APIService } from '../services/APIService.js'
 
 
 
@@ -13,7 +13,7 @@ export default function FileSummary() {
     const [selected, setSelected] = useState(null);
 
     const refreshSummary = () => {
-        ReportService.serveFileSummary().then((response) => {
+        APIService.serveFileSummary().then((response) => {
             setData(response['data']);
         })
             .catch((e) => {
