@@ -105,9 +105,9 @@ const DirectoryLinkPopup = ({ visible, directory, linkOptions, onHide }) => {
 
 export default function AccountsPage() {
 
-    // const [linkedDirs, setLinkedDirs] = useState([]);
-    // const [unlinkedDirs, setUnlinkedDirs] = useState([]);
-    const [directories, setDirectories] = useState([]);
+    const [linkedDirs, setLinkedDirs] = useState([]);
+    const [unlinkedDirs, setUnlinkedDirs] = useState([]);
+    // const [directories, setDirectories] = useState([]);
 
     const [dirLinkOptions, setDirLinkOptions] = useState({});
     const [accountLinkOptions, setAccountLinkOptions] = useState({});
@@ -119,9 +119,9 @@ export default function AccountsPage() {
 
     const getDirectories = () => {
         APIService.getDirectories().then((response) => {
-            setDirectories(response['data']['directories']);
-            // setLinkedDirs(response['data']['linked']);
-            // setUnlinkedDirs(response['data']['unlinked']);
+            // setDirectories(response['data']['directories']);
+            setLinkedDirs(response['data']['linked_directories']);
+            setUnlinkedDirs(response['data']['unlinked_directories']);
         }).catch((e) => {
             console.log(e);
         });
@@ -143,9 +143,10 @@ export default function AccountsPage() {
     //     setDirectoryLink(data);
     // };
 
-    // const linkTemplate = (data) => {
-    //     return !data.linked && <Button size="small" className='w-30 h-4' label='Link' severity="secondary" onClick={() => linkDirectory(data)} />
-    // };
+    const linkTemplate = (data) => {
+        return !data.linked && <Button size="small" className='w-30 h-4' label='Link' severity="secondary" />
+        //  onClick={() => linkDirectory(data)}
+    };
 
     // const onHideDirDialog = (accountType) => {
     //     setDirectoryLinkAccountType(accountType)
@@ -222,22 +223,27 @@ export default function AccountsPage() {
             {/* <DirectoryLinkPopup visible={isDirectoryLinking} directory={directoryLink} linkOptions={dirLinkOptions} onHide={onHideDirDialog} /> */}
             {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
 
-            <div className="mx-auto w-5/12 mt-10 h-4/5">
+            <div className="mx-auto w-1/2 flex h-screen flex-col">
 
                 {/* linked directories table, mode = ['grouped', 'sortable'] */}
                 {/* {linkedDirectoriesTable('grouped')} */}
-
-                <DataTable className={`${font_weight} h-full w-full`} value={directories} dataKey="id" scrollable scrollHeight="100%" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
+                
+                {/* linked directories */}
+                <div className="mt-3 h-fit max-h-[65%]">
+                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
                     <Column field="name" headerStyle={{ display: 'none' }} className={text_size} body={folderTemplate}></Column>
                     <Column field="sources" headerStyle={{ display: 'none' }} align='center' body={pillRowTemplate}></Column>
                     <Column field="latest_date" headerStyle={{ display: 'none' }} className={text_size} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
                 </DataTable>
+                </div>
 
                 {/* unlinked directories, link option */}
-                {/* <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
-                    <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
-                    <Column body={linkTemplate} headerStyle={{ display: 'none' }}></Column>
-                </DataTable> */}
+                <div className="flex-1 max-h-full h-fit overflow-y-hidden">
+                    <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
+                        <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
+                        <Column body={linkTemplate} headerStyle={{ display: 'none' }} align='right'></Column>
+                    </DataTable>
+                </div>
             </div>
         </div>
     )
