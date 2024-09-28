@@ -209,9 +209,11 @@ export default function AccountsPage() {
 
     {/* <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%" */ }
     {/* header={()=> (<span className="font-bold">Linked</span>)}  */ }
-    const text_size = 'text-sm'  // text-sm or text-base
+
+
+    const text_size = 'text-base'  // text-sm or text-base
     const group_text_size = 'text-base'
-    const font_weight = 'font-normal'  // font-normal, font-medium, font-semibold
+    const font_weight = 'font-light'  // font-light, font-normal, font-medium, font-semibold
 
     const renderHeader = (val, size='text-sm') => {
         return <p className={`font-bold ${size} mt-3 -mb-1`}>{val}</p>
@@ -223,24 +225,24 @@ export default function AccountsPage() {
             {/* <DirectoryLinkPopup visible={isDirectoryLinking} directory={directoryLink} linkOptions={dirLinkOptions} onHide={onHideDirDialog} /> */}
             {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
 
-            <div className="mx-auto w-1/2 flex h-screen flex-col">
+            <div className="mx-auto w-[45%] flex h-full flex-col">
 
                 {/* linked directories table, mode = ['grouped', 'sortable'] */}
                 {/* {linkedDirectoriesTable('grouped')} */}
                 
                 {/* linked directories */}
-                <div className="mt-3 h-fit max-h-[65%]">
+                <div className="mt-5 h-fit max-h-[65%]">
                 <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
-                    <Column field="name" headerStyle={{ display: 'none' }} className={text_size} body={folderTemplate}></Column>
-                    <Column field="sources" headerStyle={{ display: 'none' }} align='center' body={pillRowTemplate}></Column>
-                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={text_size} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                    <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
+                    <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%]`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
                 </DataTable>
                 </div>
 
                 {/* unlinked directories, link option */}
-                <div className="flex-1 max-h-full h-fit overflow-y-hidden">
+                <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-5">
                     <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
-                        <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
+                        <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
                         <Column body={linkTemplate} headerStyle={{ display: 'none' }} align='right'></Column>
                     </DataTable>
                 </div>
