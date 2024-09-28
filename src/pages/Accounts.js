@@ -232,7 +232,7 @@ export default function AccountsPage() {
                 <hr class="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-5 dark:bg-gray-700"/>
 
                 {/* unlinked directories, link option */}
-                <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' header={() => renderHeader('Unlinked')}>
+                <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
                     <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
                     <Column body={linkTemplate} headerStyle={{ display: 'none' }}></Column>
                 </DataTable>
