@@ -29,6 +29,13 @@ import { DirectoryLinkDialog } from '../components/subcomponents/DirectoryLinkDi
 //     }, [directory.name, linkOptions]);
 
 
+// const headerElement = (title, name) => (
+//     <div className='flex flex-col -mb-5'>
+//         <span className="font-bold white-space-nowrap">{title}</span>
+//         <span className="font-light text-lg white-space-nowrap">{name}</span>
+//     </div>
+// );
+
 //     return (
 //         <Dialog visible={visible} onHide={onHide} modal header={() => headerElement("Link Accounts", directory.name)} className='w-2/3 h-72' draggable={false}>
 
@@ -109,10 +116,11 @@ export default function AccountsPage() {
     };
 
     const onHideDirDialog = () => {  // accountType
-        // setDirectoryLinkAccountType(accountType)
         setIsDirectoryLinking(false);
+        getDirectories(); // only refresh on link: call in dialog
+
+        // setDirectoryLinkAccountType(accountType)
         // setIsAccountsLinking(true);
-        getDirectories();
     };
 
     // const onHideAccountDialog = () => {
@@ -142,13 +150,17 @@ export default function AccountsPage() {
     const linkedDirectoriesTable = (mode = 'sortable') => {
 
         const pillRowTemplate = (rowData) => {
-            return rowData.sources.length > 0 && (
+            return (
                 <div className="flex align-items-center gap-5">
                     {rowData.sources.length > 0 && rowData.sources.map((source, _) => (
                         <Tag value={source['source']} severity={source['color']} />
                     ))}
                 </div>
             );
+        };
+
+        const renderDate = (x) => {
+            return !x.latest_date ? 'N/A' : formatDateMonthDay(x.latest_date)
         };
 
         // linked directory table variations
@@ -158,7 +170,7 @@ export default function AccountsPage() {
                 <DataTable className={`${font_weight} w-full mb-5`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1} emptyMessage='No directories linked'>
                     <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
                     <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
-                    <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' className={`${text_size} w-[30%] pr-5`} body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                    <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' className={`${text_size} w-[30%] pr-5`} body={renderDate}></Column>
                 </DataTable>
             );
         } else if (mode == 'grouped') {
@@ -167,7 +179,7 @@ export default function AccountsPage() {
                 <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories linked'>
                     <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
                     <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
-                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={renderDate}></Column>
                 </DataTable>
             );
         } else {
