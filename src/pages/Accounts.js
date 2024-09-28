@@ -186,7 +186,7 @@ export default function AccountsPage() {
         if (mode == 'sortable') {
             return (
                 // sortable
-                <DataTable className={`${font_weight} w-full mb-5`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1}>
+                <DataTable className={`${font_weight} w-full mb-5`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1} emptyMessage='No directories linked'>
                     <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
                     <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
                     <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' className={`${text_size} w-[30%] pr-5`} body={(x) => formatDateMonthDay(x.latest_date)}></Column>
@@ -195,7 +195,7 @@ export default function AccountsPage() {
         } else if (mode == 'grouped') {
             return (
                 // grouped by account type, no sort
-                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)}>
+                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories linked'>
                     <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
                     <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
                     <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
@@ -222,7 +222,7 @@ export default function AccountsPage() {
 
                 {/* unlinked directories, link option */}
                 <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-16">
-                    <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
+                    <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)} emptyMessage='No directories found'>
                         <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
                         <Column body={() => <Button size="small" className='w-30 h-4' label='Link' severity="secondary" />} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
                     </DataTable>
