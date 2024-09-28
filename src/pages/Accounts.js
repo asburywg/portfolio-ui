@@ -3,7 +3,7 @@ import { APIService } from '../services/APIService.js'
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column'
-import { Folder } from "lucide-react";
+import { Folder, X } from "lucide-react";
 import { Dialog } from 'primereact/dialog';
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from 'primereact/dropdown';
@@ -54,10 +54,10 @@ const AccountLinkPopup = ({ visible, directory, accountType, linkOptions, onHide
                     <label htmlFor="tax">Tax Classification</label>
                 </FloatLabel> */}
                 <div className="flex align-items-center">
-                    <Checkbox inputId="active" onChange={()=>setActive(!active)} checked={active} />
+                    <Checkbox inputId="active" onChange={() => setActive(!active)} checked={active} />
                     <label htmlFor="active" className="ml-2">Active</label>
                 </div>
-                
+
             </div>
             <div className="flex justify-center mt-7">
                 <Button className='w-1/5' size="small" severity="primary" label="Link" onClick={onHide} />
@@ -176,35 +176,66 @@ export default function AccountsPage() {
         );
     };
 
-                {/* <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%" */}
-            {/* header={()=> (<span className="font-bold">Linked</span>)}  */}
+    const renderHeader = (val, size='text-sm') => {
+        return (
+            // <div style={{backgroundColor: '#f9fafb', height: '2rem'}}>
+            <div className={`${size} font-bold bg-white`} >
+                {/* <p className={`font-bold ${size}`}>{val}</p> */}
+                {val}
+            </div>
+        );
+    };
+
+    const linkedDirectoriesTable = (mode = 'sortable') => {
+        // linked directory table variations
+        if (mode == 'sortable') {
+            return (
+                // sortable
+                <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' removableSort sortField="latest_date" sortOrder={1}>
+                    <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
+                    <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                </DataTable>
+            );
+        } else if (mode == 'grouped') {
+            const text_size = 'text-sm'  // text-sm or text-base
+            const group_text_size = 'text-sm'
+            return (
+                // grouped by account type, no sort
+                <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
+                    <Column field="name" headerStyle={{ display: 'none' }} className={text_size} body={folderTemplate}></Column>
+                    <Column field="sources" headerStyle={{ display: 'none' }} align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={text_size} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                </DataTable>
+            );
+        } else {
+            return (<DataTable />);
+        }
+    };
+
+
+    {/* <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%" */ }
+    {/* header={()=> (<span className="font-bold">Linked</span>)}  */ }
     return (
         <div className="h-screen w-full overflow-x-hidden overflow-y-hidden">
 
             <DirectoryLinkPopup visible={isDirectoryLinking} directory={directoryLink} linkOptions={dirLinkOptions} onHide={onHideDirDialog} />
             <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} />
 
-            
-            <div className="mx-auto w-1/2 mt-10 h-4/5">
 
-                <p className="font-bold text-center mb-3">Linked</p>
+            <div className="mx-auto w-5/12 mt-10 h-4/5">
+
+                {/* linked directories table, mode = ['grouped', 'sortable'] */}
+                {linkedDirectoriesTable('grouped')}
+
                 {/* <hr class="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700"/> */}
-                {/* <hr class="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-5 dark:bg-gray-700"/> */}
+                <hr class="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-5 dark:bg-gray-700"/>
 
-
-                <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' removableSort sortField="latest_date" sortOrder={1}
-                >
-                    <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
-                    <Column field="sources" header=""  alignHeader='center' align='center'  body={pillRowTemplate}></Column>
-                    <Column field="latest_date" header="Latest Date" sortable  alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
-                </DataTable>
-{/* rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => x.account_type} */}
-{/* 
-                <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%"
-                    rowGroupMode="subheader" groupRowsBy="linked" rowGroupHeaderTemplate={headerTemplate} size='small'>
+                {/* unlinked directories, link option */}
+                <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' header={() => renderHeader('Unlinked')}>
                     <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
                     <Column body={linkTemplate} headerStyle={{ display: 'none' }}></Column>
-                </DataTable> */}
+                </DataTable>
             </div>
         </div>
     )
