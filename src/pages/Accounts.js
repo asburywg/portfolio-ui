@@ -235,7 +235,7 @@ export default function AccountsPage() {
                 <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
                     <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
                     <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
-                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%]`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
                 </DataTable>
                 </div>
 
@@ -243,7 +243,7 @@ export default function AccountsPage() {
                 <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-5">
                     <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
                         <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
-                        <Column body={linkTemplate} headerStyle={{ display: 'none' }} align='right'></Column>
+                        <Column body={linkTemplate} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
                     </DataTable>
                 </div>
             </div>
