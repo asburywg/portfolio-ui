@@ -17,14 +17,14 @@ const getDirectories = () => {
     return Promise.resolve(api.get("/directory"));
 }
 
-const getLinkOptions = () => {
-    return Promise.resolve(api.get("/directory/link"));
-}
+// const getLinkOptions = () => {
+//     return Promise.resolve(api.get("/directory/link"));
+// }
 
 export const APIService = {
     serveFileSummary,
     getAccounts,
     linkDirectory,
     getDirectories,
-    getLinkOptions
+    // getLinkOptions
 }
