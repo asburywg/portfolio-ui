@@ -9,6 +9,8 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from 'primereact/dropdown';
 import { Checkbox } from "primereact/checkbox";
 import { FloatLabel } from "primereact/floatlabel";
+import { formatDateMonth, formatDateMonthDay } from '../Utils.js'
+import { Tag } from 'primereact/tag';
 
 
 const headerElement = (title, name) => (
@@ -103,7 +105,9 @@ const DirectoryLinkPopup = ({ visible, directory, linkOptions, onHide }) => {
 
 export default function AccountsPage() {
 
-    const [directories, setDirectories] = useState([]);
+    const [linkedDirs, setLinkedDirs] = useState([]);
+    const [unlinkedDirs, setUnlinkedDirs] = useState([]);
+
     const [dirLinkOptions, setDirLinkOptions] = useState({});
     const [accountLinkOptions, setAccountLinkOptions] = useState({});
     const [isDirectoryLinking, setIsDirectoryLinking] = useState(false);
@@ -114,7 +118,8 @@ export default function AccountsPage() {
 
     const getDirectories = () => {
         APIService.getDirectories().then((response) => {
-            setDirectories(response['data']);
+            setLinkedDirs(response['data']['linked']);
+            setUnlinkedDirs(response['data']['unlinked']);
         }).catch((e) => {
             console.log(e);
         });
@@ -136,19 +141,6 @@ export default function AccountsPage() {
         setDirectoryLink(data);
     };
 
-    const folderTemplate = (rowData) => {
-        return (
-            <div className="flex align-items-center gap-2">
-                <Folder size={20} />
-                <span>{rowData.name}</span>
-            </div>
-        );
-    };
-
-    const headerTemplate = (data) => {
-        return <span className="font-bold">{data.linked ? "Linked" : "Unlinked"}</span>
-    };
-
     const linkTemplate = (data) => {
         return !data.linked && <Button size="small" className='w-30 h-4' label='Link' severity="secondary" onClick={() => linkDirectory(data)} />
     };
@@ -165,19 +157,54 @@ export default function AccountsPage() {
         getDirectories();
     };
 
+    const folderTemplate = (rowData) => {
+        return (
+            <div className="flex align-items-center gap-2">
+                <Folder size={20} />
+                <span>{rowData.name}</span>
+            </div>
+        );
+    };
+
+    const pillRowTemplate = (rowData) => {
+        return (
+            <div className="flex align-items-center gap-5">
+                {rowData.sources.map((source, _) => (
+                    <Tag value={source['source']} severity={source['color']} />
+                ))}
+            </div>
+        );
+    };
+
+                {/* <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%" */}
+            {/* header={()=> (<span className="font-bold">Linked</span>)}  */}
     return (
         <div className="h-screen w-full overflow-x-hidden overflow-y-hidden">
 
             <DirectoryLinkPopup visible={isDirectoryLinking} directory={directoryLink} linkOptions={dirLinkOptions} onHide={onHideDirDialog} />
             <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} />
 
-            <div className="mx-auto w-2/3 mt-20 h-4/5">
-                <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%"
+            
+            <div className="mx-auto w-1/2 mt-10 h-4/5">
+
+                <p className="font-bold text-center mb-3">Linked</p>
+                {/* <hr class="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700"/> */}
+                {/* <hr class="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-5 dark:bg-gray-700"/> */}
+
+
+                <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' removableSort sortField="latest_date" sortOrder={1}
+                >
+                    <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
+                    <Column field="sources" header=""  alignHeader='center' align='center'  body={pillRowTemplate}></Column>
+                    <Column field="latest_date" header="Latest Date" sortable  alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                </DataTable>
+{/* rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => x.account_type} */}
+{/* 
+                <DataTable className="lightfont" value={unlinkedDirs} dataKey="id" scrollable scrollHeight="100%"
                     rowGroupMode="subheader" groupRowsBy="linked" rowGroupHeaderTemplate={headerTemplate} size='small'>
                     <Column field="name" body={folderTemplate} headerStyle={{ display: 'none' }}></Column>
                     <Column body={linkTemplate} headerStyle={{ display: 'none' }}></Column>
-
-                </DataTable>
+                </DataTable> */}
             </div>
         </div>
     )
