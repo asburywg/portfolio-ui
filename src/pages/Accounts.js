@@ -107,7 +107,6 @@ export default function AccountsPage() {
 
     const [linkedDirs, setLinkedDirs] = useState([]);
     const [unlinkedDirs, setUnlinkedDirs] = useState([]);
-    // const [directories, setDirectories] = useState([]);
 
     const [dirLinkOptions, setDirLinkOptions] = useState({});
     const [accountLinkOptions, setAccountLinkOptions] = useState({});
@@ -119,7 +118,6 @@ export default function AccountsPage() {
 
     const getDirectories = () => {
         APIService.getDirectories().then((response) => {
-            // setDirectories(response['data']['directories']);
             setLinkedDirs(response['data']['linked_directories']);
             setUnlinkedDirs(response['data']['unlinked_directories']);
         }).catch((e) => {
@@ -143,11 +141,6 @@ export default function AccountsPage() {
     //     setDirectoryLink(data);
     // };
 
-    const linkTemplate = (data) => {
-        return !data.linked && <Button size="small" className='w-30 h-4' label='Link' severity="secondary" />
-        //  onClick={() => linkDirectory(data)}
-    };
-
     // const onHideDirDialog = (accountType) => {
     //     setDirectoryLinkAccountType(accountType)
     //     setIsDirectoryLinking(false);
@@ -160,6 +153,14 @@ export default function AccountsPage() {
     //     getDirectories();
     // };
 
+    const text_size = 'text-base'  // text-sm or text-base
+    const group_text_size = 'text-base'
+    const font_weight = 'font-light'  // font-light, font-normal, font-medium, font-semibold
+
+    const renderHeader = (val, pad=true) => {
+        return <p className={`font-bold ${group_text_size} ${pad ? 'mt-3 -mb-1' : ''}`}>{val}</p>
+    };
+
     const folderTemplate = (rowData) => {
         return (
             <div className="flex align-items-center gap-2">
@@ -169,54 +170,40 @@ export default function AccountsPage() {
         );
     };
 
-    const pillRowTemplate = (rowData) => {
-        return rowData.sources.length > 0 && (
-            <div className="flex align-items-center gap-5">
-                {rowData.sources.length > 0 && rowData.sources.map((source, _) => (
-                    <Tag value={source['source']} severity={source['color']} />
-                ))}
-            </div>
-        );
-    };
+    const linkedDirectoriesTable = (mode = 'sortable') => {
 
-    // const linkedDirectoriesTable = (mode = 'sortable') => {
-    //     // linked directory table variations
-    //     if (mode == 'sortable') {
-    //         return (
-    //             // sortable
-    //             <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' removableSort sortField="latest_date" sortOrder={1}>
-    //                 <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
-    //                 <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
-    //                 <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
-    //             </DataTable>
-    //         );
-    //     } else if (mode == 'grouped') {
-    //         const text_size = 'text-sm'  // text-sm or text-base
-    //         const group_text_size = 'text-sm'
-    //         return (
-    //             // grouped by account type, no sort
-    //             <DataTable className="lightfont" value={linkedDirs} dataKey="id" scrollable scrollHeight="100%" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
-    //                 <Column field="name" headerStyle={{ display: 'none' }} className={text_size} body={folderTemplate}></Column>
-    //                 <Column field="sources" headerStyle={{ display: 'none' }} align='center' body={pillRowTemplate}></Column>
-    //                 <Column field="latest_date" headerStyle={{ display: 'none' }} className={text_size} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
-    //             </DataTable>
-    //         );
-    //     } else {
-    //         return (<DataTable />);
-    //     }
-    // };
+        const pillRowTemplate = (rowData) => {
+            return rowData.sources.length > 0 && (
+                <div className="flex align-items-center gap-5">
+                    {rowData.sources.length > 0 && rowData.sources.map((source, _) => (
+                        <Tag value={source['source']} severity={source['color']} />
+                    ))}
+                </div>
+            );
+        };
 
-
-    {/* <DataTable className="lightfont h-full min-h-full w-full" value={directories} dataKey="id" scrollable scrollHeight="100%" */ }
-    {/* header={()=> (<span className="font-bold">Linked</span>)}  */ }
-
-
-    const text_size = 'text-base'  // text-sm or text-base
-    const group_text_size = 'text-base'
-    const font_weight = 'font-light'  // font-light, font-normal, font-medium, font-semibold
-
-    const renderHeader = (val, size='text-sm') => {
-        return <p className={`font-bold ${size} mt-3 -mb-1`}>{val}</p>
+        // linked directory table variations
+        if (mode == 'sortable') {
+            return (
+                // sortable
+                <DataTable className={`${font_weight} w-full mb-5`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1}>
+                    <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
+                    <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' className={`${text_size} w-[30%] pr-5`} body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                </DataTable>
+            );
+        } else if (mode == 'grouped') {
+            return (
+                // grouped by account type, no sort
+                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)}>
+                    <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
+                    <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
+                </DataTable>
+            );
+        } else {
+            return (<DataTable />);
+        }
     };
 
     return (
@@ -226,24 +213,18 @@ export default function AccountsPage() {
             {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
 
             <div className="mx-auto w-[45%] flex h-full flex-col">
-
-                {/* linked directories table, mode = ['grouped', 'sortable'] */}
-                {/* {linkedDirectoriesTable('grouped')} */}
                 
-                {/* linked directories */}
-                <div className="mt-5 h-fit max-h-[65%]">
-                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
-                    <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
-                    <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
-                    <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={(x) => formatDateMonthDay(x.latest_date)}></Column>
-                </DataTable>
+                {/* linked directories table, mode = ['grouped', 'sortable'] */}
+                <div className="mt-16 h-fit max-h-[65%]">
+                    {/* {linkedDirectoriesTable('grouped')} */}
+                    {linkedDirectoriesTable('sortable')}
                 </div>
 
                 {/* unlinked directories, link option */}
-                <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-5">
+                <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-16">
                     <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type, group_text_size)}>
                         <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
-                        <Column body={linkTemplate} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
+                        <Column body={() => <Button size="small" className='w-30 h-4' label='Link' severity="secondary" />} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
                     </DataTable>
                 </div>
             </div>
