@@ -1,12 +1,13 @@
 import Sidebar, { SidebarItem, SidebarGroup } from "./layout/Sidebar"
-import { Home, Folder, Table, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus } from "lucide-react";
+import { Home, Folder, Table, Banknote, TreePalm, CandlestickChart, Gem, Settings, Activity, HousePlus, CircleDollarSign} from "lucide-react";
 import { useState } from "react";
 import AccountsPage from "./pages/Accounts"
+import IncomePage from "./pages/Income"
 // import HomePage from "./pages/Home"
 // import FileSummary from "./pages/FileSummary"
-// import Transactions from "./pages/Transactions"
+import Transactions from "./pages/Transactions"
 // import Retirement from "./pages/Retirement"
-// import CashFlow from "./pages/CashFlow"
+import CashFlow from "./pages/CashFlow"
 // import TransactionsFull from "./pages/TransactionsFull"
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
@@ -20,18 +21,20 @@ function App() {
     switch (activeItem) {
         case "Accounts":
           return <AccountsPage />;
+        case "Income":
+          return <IncomePage />;
         // case "Home":
         //   return <HomePage />;
         // case "File Summary":
         //   return <FileSummary />;
-        // case "Transactions":
-        //   return <Transactions />;
+        case "Transactions":
+          return <Transactions />;
         // case "TransactionsFull":
         //   return <TransactionsFull />;
         // case "Retirement":
         //   return <Retirement />;
-        // case "Cash Flow":
-        //   return <CashFlow />;
+        case "Cash Flow":
+          return <CashFlow />;
         default:
           return <NotImplementedComponent />;
     }
@@ -43,8 +46,10 @@ function App() {
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
           <SidebarItem icon={Folder} text="Accounts" />
+          <SidebarItem icon={CircleDollarSign} text="Income" />
+          <SidebarItem icon={Banknote} text="Cash Flow" alert />
+          <SidebarItem icon={Table} text="Transactions" alert />
 
-          <SidebarItem icon={Folder} text="File Summary" />
           {/* <SidebarItem icon={Home} text="Home" />
           <SidebarItem icon={Folder} text="File Summary" />
           <SidebarItem icon={Table} text="Transactions" alert />
