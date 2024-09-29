@@ -40,6 +40,34 @@ function App() {
     }
   };
 
+
+  /**  MINT UI
+   *    - Link account: associating dirctory with parser through institution metadata, specify accounts in statements (accounts M <--> 1 dir 1 <--> 1 parser)
+   *    - Category heirarchy to rollup transactions, user can create/update/delete categories but rollup and group are static (group 1 <--> M rollup 1 <--> M category )
+   *    - User can create labels, subset of a category, or tags, not constraint to a specific category, to associate with a transaction, as well as notes
+   *    - category/label/tags/note metadata assignment should be contained in one datatable
+   *    - variations of transaction table: 
+   *        - fully filterable
+   *        - side by side with date constraint rollup aggregation
+   *    - when categorizing (with category or label) user may want to apply the same rule to other transactions in the same account or across all accounts
+   *        - this option should be provided in the datatable
+   *    - user should be able to see/edit all metadata and rules in settings
+   *    - the result of categorization is a full aggregation summary of rollups for a view of income/expenses and where money flows
+   * 
+   *    - addtionally,
+   *        - paycheck rollup summary (401k, taxes)
+   *        - balance sheet (statements)
+   *        - investments postitions (allocation/performance)
+   * 
+   * 
+   * 
+   *      Parsing Enablement:     parser <> directory <> account
+   *      Parse Datasources:      file <> {transaction, statement, paycheck}
+   *      Metadata Enhancement:   category, tag, label, rules
+   * 
+   *      Investment:             activity, tax_lot, trades
+   */
+
   return (
     <>
       <div className="flex">
