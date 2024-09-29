@@ -3,71 +3,11 @@ import { APIService } from '../services/APIService.js'
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column'
-import { Folder, X } from "lucide-react";
-import { Dialog } from 'primereact/dialog';
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from 'primereact/dropdown';
-import { Checkbox } from "primereact/checkbox";
-import { FloatLabel } from "primereact/floatlabel";
+import { Folder } from "lucide-react";
 import { formatDateMonthDay } from '../Utils.js'
 import { Tag } from 'primereact/tag';
 import { DirectoryLinkDialog } from '../components/subcomponents/DirectoryLinkDialog.js';
-
-
-
-
-// const AccountLinkPopup = ({ visible, directory, accountType, linkOptions, onHide }) => {
-//     const [accountName, setAccountName] = useState('');
-//     const [accountSubtype, setAccountSubtype] = useState('');
-//     const [delegation, setDelegation] = useState('');
-//     // const [taxClassification, setTaxClassification] = useState('');
-//     const [active, setActive] = useState(true);
-
-//     useEffect(() => {
-//         setAccountName(directory.name);
-//         setDelegation(linkOptions['default_delegation']);
-//     }, [directory.name, linkOptions]);
-
-
-// const headerElement = (title, name) => (
-//     <div className='flex flex-col -mb-5'>
-//         <span className="font-bold white-space-nowrap">{title}</span>
-//         <span className="font-light text-lg white-space-nowrap">{name}</span>
-//     </div>
-// );
-
-//     return (
-//         <Dialog visible={visible} onHide={onHide} modal header={() => headerElement("Link Accounts", directory.name)} className='w-2/3 h-72' draggable={false}>
-
-//             <div className="px-2 mx-auto grid grid-cols-5 gap-x-5 gap-y-10 content-start mt-10">
-//                 <FloatLabel>
-//                     <InputText id="accountName" value={accountName} onChange={(e) => setAccountName(e.target.value)} className="w-full md:w-14rem" />
-//                     <label htmlFor="accountName">Account Name</label>
-//                 </FloatLabel>
-//                 <FloatLabel>
-//                     <InputText id="delegation" value={delegation} onChange={(e) => setDelegation(e.target.value)} className="w-full md:w-14rem" />
-//                     <label htmlFor="delegation">Delegation</label>
-//                 </FloatLabel>
-//                 <FloatLabel>
-//                     <Dropdown id="accountSubtype" value={accountSubtype} onChange={(e) => setAccountSubtype(e.value)} options={accountType === '' ? [] : linkOptions['account_subtype'][accountType]} className="w-full md:w-14rem" />
-//                     <label htmlFor="accountSubtype">Account Subtype</label>
-//                 </FloatLabel>
-//                 {/* <FloatLabel>
-//                     <Dropdown id="tax" disabled={!accountSubtype || !linkOptions['tax_classification'].hasOwnProperty(accountSubtype)} value={taxClassification} onChange={(e) => setTaxClassification(e.value)} options={linkOptions['tax_classification'][accountSubtype]} className="w-full md:w-14rem" />
-//                     <label htmlFor="tax">Tax Classification</label>
-//                 </FloatLabel> */}
-//                 <div className="flex align-items-center">
-//                     <Checkbox inputId="active" onChange={() => setActive(!active)} checked={active} />
-//                     <label htmlFor="active" className="ml-2">Active</label>
-//                 </div>
-
-//             </div>
-//             <div className="flex justify-center mt-7">
-//                 <Button className='w-1/5' size="small" severity="primary" label="Link" onClick={onHide} />
-//             </div>
-//         </Dialog>
-//     );
-// };
+import { AccountLine } from '../components/subcomponents/AccountExpansion.js';
 
 
 export default function AccountsPage() {
@@ -77,21 +17,28 @@ export default function AccountsPage() {
     const [unlinkedDirs, setUnlinkedDirs] = useState([]);
     const [dirLinkOptions, setDirLinkOptions] = useState({});
 
+    const [accountMap, setAccountMap] = useState({});
+    const [accLinkOptions, setAccLinkOptions] = useState({});
+
     // directory link
     const [isDirectoryLinking, setIsDirectoryLinking] = useState(false);
     const [directoryLinking, setDirectoryLinking] = useState({});
 
+    // expand account 
+    const [expandedRows, setExpandedRows] = useState({});
+    const [expandConstaint, setExpandConstaint] = useState(null);
 
-    // const [accountLinkOptions, setAccountLinkOptions] = useState({});
-    // const [isAccountsLinking, setIsAccountsLinking] = useState(false);
-    // const [directoryLinkAccountType, setDirectoryLinkAccountType] = useState('');
-
+    const text_size = 'text-base'  // text-sm or text-base
+    const group_text_size = 'text-base'
+    const font_weight = 'font-light'  // font-light, font-normal, font-medium, font-semibold
 
     const getDirectories = () => {
         APIService.getDirectories().then((response) => {
             setLinkedDirs(response['data']['linked_directories']);
             setUnlinkedDirs(response['data']['unlinked_directories']);
-            setDirLinkOptions(response['data']['link_options']);
+            setDirLinkOptions(response['data']['directory_link_options']);
+            setAccountMap(response['data']['account_map'])
+            setAccLinkOptions(response['data']['account_link_options']);
         }).catch((e) => {
             console.log(e);
         });
@@ -123,16 +70,54 @@ export default function AccountsPage() {
         // setIsAccountsLinking(true);
     };
 
+    /* ACCOUNT LINK */
+
+    const onAccountExpand = (e) => {
+        // enforce one expanded row at a time
+        let _expandedRows = {};
+        if(!expandConstaint) {
+            setExpandConstaint(e.data);
+            setExpandedRows(e.data);
+        }else {
+            Object.keys(e.data).filter(key => !(key in expandConstaint)).forEach((p) => (_expandedRows[`${p}`] = true));
+            setExpandConstaint(_expandedRows);
+            setExpandedRows(_expandedRows);
+        }
+    };
+
+    const onAccountCollapse = (_) => {
+        setExpandedRows(null);
+    };
+
+
+    const accountExpansion = (data) => {
+        const accounts = accountMap[data.id]
+
+        return (
+            <div className="flex flex-col bg-slate-100 -m-2">
+                <div className="flex mx-5 mt-4 gap-3">
+                    <p className='font-semibold text-sm w-[15%]'>Account Name</p>
+                    <p className='font-semibold text-sm w-[15%]'>Institution</p>
+                    <p className='font-semibold text-sm w-[15%]'>Account Type</p>
+                    <p className='font-semibold text-sm w-[20%]'>Account Subtype</p>
+                    <p className='font-semibold text-sm w-[15%]'>Tax Classification</p>
+                    <p className='font-semibold text-sm w-[15%]'>Delegation</p>
+                    <p className='font-semibold text-sm w-[5%] flex items-center justify-center'>Active</p>
+                </div>
+
+                {accounts.map((account, idx) => (
+                    <AccountLine idx={idx} account={account} linkOptions={accLinkOptions} />
+                ))}
+            </div>
+        );
+    };
+
     // const onHideAccountDialog = () => {
     //     setIsAccountsLinking(false);
     //     getDirectories();
     // };
 
     /* RENDER DIRECTORY TABLES */
-
-    const text_size = 'text-base'  // text-sm or text-base
-    const group_text_size = 'text-base'
-    const font_weight = 'font-light'  // font-light, font-normal, font-medium, font-semibold
 
     const renderHeader = (val, pad=true) => {
         return <p className={`font-bold ${group_text_size} ${pad ? 'mt-3 -mb-1' : ''}`}>{val}</p>
@@ -151,7 +136,7 @@ export default function AccountsPage() {
 
         const pillRowTemplate = (rowData) => {
             return (
-                <div className="flex align-items-center gap-5">
+                <div className="flex align-items-center gap-2">
                     {rowData.sources.length > 0 && rowData.sources.map((source, _) => (
                         <Tag value={source['source']} severity={source['color']} />
                     ))}
@@ -164,22 +149,33 @@ export default function AccountsPage() {
         };
 
         // linked directory table variations
-        if (mode == 'sortable') {
+        if (mode === 'sortable') {
             return (
                 // sortable
-                <DataTable className={`${font_weight} w-full mb-5`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1} emptyMessage='No directories linked'>
+                <DataTable className={`${font_weight} w-[45%] mb-5 mx-auto`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' removableSort sortField="latest_date" sortOrder={1} emptyMessage='No directories linked'>
                     <Column field="name" header="Directory" sortable body={folderTemplate}></Column>
                     <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
                     <Column field="latest_date" header="Latest Date" sortable alignHeader='right' align='right' className={`${text_size} w-[30%] pr-5`} body={renderDate}></Column>
                 </DataTable>
             );
-        } else if (mode == 'grouped') {
+        } else if (mode === 'grouped') {
             return (
                 // grouped by account type, no sort
-                <DataTable className={`${font_weight} w-full`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories linked'>
+                <DataTable className={`${font_weight} w-[45%] mx-auto`} value={linkedDirs} dataKey="id" size='small' scrollable scrollHeight="flex" rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories linked'>
                     <Column field="name" headerStyle={{ display: 'none' }} className={`${text_size} w-[40%]`} body={folderTemplate}></Column>
                     <Column field="sources" headerStyle={{ display: 'none' }} className='w-[30%]' align='center' body={pillRowTemplate}></Column>
                     <Column field="latest_date" headerStyle={{ display: 'none' }} className={`${text_size} w-[30%] pr-5`} alignHeader='right' align='right' body={renderDate}></Column>
+                </DataTable>
+            );
+        } else if (mode === 'expandable') {
+            return (
+                // expandable with accounts
+                <DataTable className={`${font_weight} w-[75%] mx-auto mb-20`} headerStyle={{".p-sortable-column.p-highlight": "white"}} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' emptyMessage='No directories linked'
+                           expandedRows={expandedRows} onRowCollapse={onAccountCollapse} onRowToggle={onAccountExpand} rowExpansionTemplate={accountExpansion} >
+                    <Column expander className='w-12 h-12' headerStyle={{ height: '0px' }} />
+                    <Column field="name" header="Directory" body={folderTemplate}></Column>
+                    <Column field="sources" header="" align='center' body={pillRowTemplate}></Column>
+                    <Column field="latest_date" header="Latest Date" headerStyle={{paddingRight: '1.25rem'}} alignHeader='left' align='left' className={`${text_size} w-[30%] pr-5`} body={renderDate}></Column>
                 </DataTable>
             );
         } else {
@@ -193,16 +189,17 @@ export default function AccountsPage() {
             <DirectoryLinkDialog visible={isDirectoryLinking} directory={directoryLinking} linkOptions={dirLinkOptions} onHide={onHideDirDialog} />
             {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
 
-            <div className="mx-auto w-[45%] flex h-full flex-col">
+            <div className="flex w-full h-full flex-col">
                 
                 {/* linked directories table, mode = ['grouped', 'sortable'] */}
                 <div className="mt-16 h-fit max-h-[65%]">
                     {/* {linkedDirectoriesTable('grouped')} */}
-                    {linkedDirectoriesTable('sortable')}
+                    {/* {linkedDirectoriesTable('sortable')} */}
+                    {linkedDirectoriesTable('expandable')}
                 </div>
 
                 {/* unlinked directories, link option */}
-                <div className="flex-1 max-h-full h-fit overflow-y-hidden mb-16">
+                <div className="w-[45%] mx-auto flex-1 max-h-full h-fit overflow-y-hidden mb-16">
                     <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories found'>
                         <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
                         <Column body={(x) => <Button size="small" className='w-30 h-4' label='Link' severity="secondary" onClick={() => linkDirectory(x)} />} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
