@@ -7,7 +7,7 @@ import { Folder } from "lucide-react";
 import { formatDateMonthDay } from '../Utils.js'
 import { Tag } from 'primereact/tag';
 import { DirectoryLinkDialog } from '../components/subcomponents/DirectoryLinkDialog.js';
-import { AccountLine } from '../components/subcomponents/AccountExpansion.js';
+import { AccountLink } from '../components/subcomponents/AccountExpansion.js';
 
 
 export default function AccountsPage() {
@@ -86,50 +86,9 @@ export default function AccountsPage() {
         setExpandedRows(null);
     };
 
-
     const accountExpansion = (data) => {
         let accounts = accountMap[data.id]
-
-        const newAccount = {
-            "directory_id": data.id,
-            "account_name": accounts[0]['account_name'],
-            "institution": accounts[0]['institution'],
-            "account_type": "",
-            "account_subtype": "",
-            "tax_classification": "",
-            "delegation": "",
-            "active": true
-        }
-
-        const addNewAccount = () => {
-            accounts.push(newAccount)
-        };
-        
-        return (
-            <div key={data.id} className="flex flex-col bg-slate-100 -m-2">
-                <div className="flex mx-5 mt-6 gap-3">
-                    <p className='font-semibold text-sm w-[15%]'>Account Name</p>
-                    <p className='font-semibold text-sm w-[15%]'>Institution</p>
-                    <p className='font-semibold text-sm w-[15%]'>Account Type</p>
-                    <p className='font-semibold text-sm w-[20%]'>Account Subtype</p>
-                    <p className='font-semibold text-sm w-[15%]'>Tax Classification</p>
-                    <p className='font-semibold text-sm w-[15%]'>Delegation</p>
-                    <p className='font-semibold text-sm w-[5%] flex items-center justify-center'>Active</p>
-                </div>
-
-                {accounts.map((account, idx) => (
-                    <React.Fragment key={idx}>
-                        <AccountLine account={account} linkOptions={accLinkOptions} />
-                    </React.Fragment>
-                ))}
-
-                <div className="flex mb-4 mx-5 justify-between items-center">
-                    <Button icon="pi pi-plus" raised rounded className='w-10 h-10 bg-slate-400 border-0' onClick={addNewAccount} />
-                    <Button className='w-[10%] h-8 bg-white text-black border-black' size="small" label="Save" />
-                </div>
-                
-            </div>
-        );
+        return (<AccountLink id={data.id} accounts={accounts} linkOptions={accLinkOptions} />)
     };
 
     /* RENDER DIRECTORY TABLES */

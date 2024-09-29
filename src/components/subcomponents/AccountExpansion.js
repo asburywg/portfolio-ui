@@ -2,8 +2,63 @@ import React, { useState, useEffect } from 'react';
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from 'primereact/dropdown';
 import { Checkbox } from "primereact/checkbox";
+import { Button } from 'primereact/button';
 
-export const AccountLine = ({ account, linkOptions }) => {
+function AccountLink({ id, accounts, linkOptions }) {
+
+    const [accountList, setAccountList] = useState([]);
+    const [newAccount, setNewAccount] = useState({});
+
+
+    useEffect(() => {
+        setAccountList(accounts);
+        setNewAccount({
+            "directory_id": id,
+            "account_name": "",
+            "institution": accounts[0]['institution'],
+            "account_type": accounts[0]['account_type'],
+            "account_subtype": "",
+            "tax_classification": "",
+            "delegation": "",
+            "active": true
+        })
+    }, [accounts]);
+
+    const addNewAccount = () => {
+        let accountCp = [...accountList]
+        accountCp.push(newAccount)
+        setAccountList(accountCp);
+    };
+
+    return (
+        <div key={id} className="flex flex-col bg-slate-100 -m-2">
+            <div className="flex mx-5 mt-6 gap-3">
+                <p className='font-semibold text-sm w-[15%]'>Account Name</p>
+                <p className='font-semibold text-sm w-[15%]'>Institution</p>
+                <p className='font-semibold text-sm w-[15%]'>Account Type</p>
+                <p className='font-semibold text-sm w-[20%]'>Account Subtype</p>
+                <p className='font-semibold text-sm w-[15%]'>Tax Classification</p>
+                <p className='font-semibold text-sm w-[15%]'>Delegation</p>
+                <p className='font-semibold text-sm w-[5%] flex items-center justify-center'>Active</p>
+            </div>
+
+            {accountList.map((account, idx) => (
+                <React.Fragment key={idx}>
+                    <AccountLine account={account} linkOptions={linkOptions} />
+                </React.Fragment>
+            ))}
+
+            <div className="flex mb-4 mx-5 justify-between items-center">
+                <Button icon="pi pi-plus" raised rounded className='w-10 h-10 bg-slate-400 border-0' onClick={addNewAccount} />
+                <Button className='w-[10%] h-8 bg-white text-black border-black' size="small" label="Save" />
+            </div>
+            
+        </div>
+    );
+
+}
+
+function AccountLine({ account, linkOptions }) {
 
     const [accountName, setAccountName] = useState('');
     const [accountSubtype, setAccountSubtype] = useState('');
@@ -45,4 +100,9 @@ export const AccountLine = ({ account, linkOptions }) => {
             <Checkbox inputId="active" checked={active} onChange={() => setActive(!active)} className="w-[5%] h-10 flex items-center justify-center" />
         </div>
     );
+};
+
+export {
+	AccountLine,
+	AccountLink,
 };
