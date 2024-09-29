@@ -65,9 +65,6 @@ export default function AccountsPage() {
     const onHideDirDialog = () => {  // accountType
         setIsDirectoryLinking(false);
         getDirectories(); // only refresh on link: call in dialog
-
-        // setDirectoryLinkAccountType(accountType)
-        // setIsAccountsLinking(true);
     };
 
     /* ACCOUNT LINK */
@@ -91,11 +88,26 @@ export default function AccountsPage() {
 
 
     const accountExpansion = (data) => {
-        const accounts = accountMap[data.id]
+        let accounts = accountMap[data.id]
 
+        const newAccount = {
+            "directory_id": data.id,
+            "account_name": accounts[0]['account_name'],
+            "institution": accounts[0]['institution'],
+            "account_type": "",
+            "account_subtype": "",
+            "tax_classification": "",
+            "delegation": "",
+            "active": true
+        }
+
+        const addNewAccount = () => {
+            accounts.push(newAccount)
+        };
+        
         return (
-            <div className="flex flex-col bg-slate-100 -m-2">
-                <div className="flex mx-5 mt-4 gap-3">
+            <div key={data.id} className="flex flex-col bg-slate-100 -m-2">
+                <div className="flex mx-5 mt-6 gap-3">
                     <p className='font-semibold text-sm w-[15%]'>Account Name</p>
                     <p className='font-semibold text-sm w-[15%]'>Institution</p>
                     <p className='font-semibold text-sm w-[15%]'>Account Type</p>
@@ -106,16 +118,19 @@ export default function AccountsPage() {
                 </div>
 
                 {accounts.map((account, idx) => (
-                    <AccountLine idx={idx} account={account} linkOptions={accLinkOptions} />
+                    <React.Fragment key={idx}>
+                        <AccountLine account={account} linkOptions={accLinkOptions} />
+                    </React.Fragment>
                 ))}
+
+                <div className="flex mb-4 mx-5 justify-between items-center">
+                    <Button icon="pi pi-plus" raised rounded className='w-10 h-10 bg-slate-400 border-0' onClick={addNewAccount} />
+                    <Button className='w-[10%] h-8 bg-white text-black border-black' size="small" label="Save" />
+                </div>
+                
             </div>
         );
     };
-
-    // const onHideAccountDialog = () => {
-    //     setIsAccountsLinking(false);
-    //     getDirectories();
-    // };
 
     /* RENDER DIRECTORY TABLES */
 
@@ -137,8 +152,8 @@ export default function AccountsPage() {
         const pillRowTemplate = (rowData) => {
             return (
                 <div className="flex align-items-center gap-2">
-                    {rowData.sources.length > 0 && rowData.sources.map((source, _) => (
-                        <Tag value={source['source']} severity={source['color']} />
+                    {rowData.sources.length > 0 && rowData.sources.map((source, idx) => (
+                        <Tag key={idx} value={source['source']} severity={source['color']} />
                     ))}
                 </div>
             );
@@ -170,7 +185,7 @@ export default function AccountsPage() {
         } else if (mode === 'expandable') {
             return (
                 // expandable with accounts
-                <DataTable className={`${font_weight} w-[75%] mx-auto mb-20`} headerStyle={{".p-sortable-column.p-highlight": "white"}} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' emptyMessage='No directories linked'
+                <DataTable className={`${font_weight} w-[75%] mx-auto mb-20`} value={linkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' emptyMessage='No directories linked'
                            expandedRows={expandedRows} onRowCollapse={onAccountCollapse} onRowToggle={onAccountExpand} rowExpansionTemplate={accountExpansion} >
                     <Column expander className='w-12 h-12' headerStyle={{ height: '0px' }} />
                     <Column field="name" header="Directory" body={folderTemplate}></Column>
@@ -187,24 +202,22 @@ export default function AccountsPage() {
         <div className="h-screen w-full overflow-x-hidden overflow-y-hidden">
 
             <DirectoryLinkDialog visible={isDirectoryLinking} directory={directoryLinking} linkOptions={dirLinkOptions} onHide={onHideDirDialog} />
-            {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
 
             <div className="flex w-full h-full flex-col">
                 
-                {/* linked directories table, mode = ['grouped', 'sortable'] */}
                 <div className="mt-16 h-fit max-h-[65%]">
                     {/* {linkedDirectoriesTable('grouped')} */}
                     {/* {linkedDirectoriesTable('sortable')} */}
                     {linkedDirectoriesTable('expandable')}
                 </div>
 
-                {/* unlinked directories, link option */}
                 <div className="w-[45%] mx-auto flex-1 max-h-full h-fit overflow-y-hidden mb-16">
                     <DataTable className={`${font_weight} w-full h-full`} value={unlinkedDirs} dataKey="id" scrollable scrollHeight="flex" size='small' rowGroupMode="subheader" groupRowsBy="account_type" rowGroupHeaderTemplate={(x) => renderHeader(x.account_type)} emptyMessage='No directories found'>
                         <Column field="name" body={folderTemplate} className={text_size} headerStyle={{ display: 'none' }}></Column>
                         <Column body={(x) => <Button size="small" className='w-30 h-4' label='Link' severity="secondary" onClick={() => linkDirectory(x)} />} headerStyle={{ display: 'none' }} className='pr-5' align='right'></Column>
                     </DataTable>
                 </div>
+
             </div>
         </div>
     )
