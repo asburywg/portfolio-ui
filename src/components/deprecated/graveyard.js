@@ -19,6 +19,9 @@ import { FloatLabel } from "primereact/floatlabel";
 
 
 
+    {/* <AccountLinkPopup visible={isAccountsLinking} directory={directoryLink} accountType={directoryLinkAccountType} linkOptions={accountLinkOptions} onHide={onHideAccountDialog} /> */}
+
+
 
 const AccountLinkPopup = ({ visible, directory, accountType, linkOptions, onHide }) => {
     const [accountName, setAccountName] = useState('');
@@ -72,3 +75,53 @@ const headerElement = (title, name) => (
         </Dialog>
     );
 };
+
+
+const accountExpansionTable = (data) => {
+    const accounts = accountMap[data.id];
+    return (
+        <div className="flex flex-col">
+            <div className="grid grid-cols-7 gap-x-5 gap-y-10 content-start my-1">
+                <p className='font-thin text-sm'>Account Name</p>
+                <p className='font-thin text-sm'>Institution</p>
+                <p className='font-thin text-sm'>Account Type</p>
+                <p className='font-thin text-sm'>Account Subtype</p>
+                <p className='font-thin text-sm'>Tax Classification</p>
+                <p className='font-thin text-sm'>Delegation</p>
+                <p className='font-thin text-sm'>Active</p>
+            </div>
+
+            {accounts.map((account, idx) => (
+                <div id={idx}>
+                    <div className="mx-auto grid grid-cols-7 gap-x-5 gap-y-10 content-start my-1">
+                        <InputText id="1" value={account['account_name']} className="p-2 text-sm" />
+                        <InputText id="2" value={account['institution']} disabled className="p-2 text-sm" />
+                        <InputText id="3" value={account['account_type']} disabled className="p-2 text-sm" />
+                        <Dropdown id="4" value={account['account_subtype']} options={accLinkOptions['account_subtype'][account['account_type']]} className="text-sm" />
+                        <Dropdown id="5" value={account['tax_classification']} options={['test']} className="text-sm" />
+                        <Dropdown id="6" value={account['delegation']} options={['test']} className="text-sm" />
+                        <Checkbox inputId="active" checked={account['active']} />
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+
+
+// try {
+        //     const response = await fetch("/api/save-accounts", {
+        //         method: "POST",
+        //         headers: { 'Content-Type': 'application/json' },
+        //         body: JSON.stringify(accountList)
+        //     });
+
+        //     if (response.ok) {
+        //         console.log("Accounts saved successfully");
+        //     } else {
+        //         console.error("Failed to save accounts");
+        //     }
+        // } catch (error) {
+        //     console.error("Error while saving accounts:", error);
+        // }

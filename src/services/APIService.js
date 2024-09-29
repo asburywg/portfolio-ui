@@ -17,6 +17,10 @@ const getDirectories = () => {
     return Promise.resolve(api.get("/directory"));
 }
 
+const linkAccounts = (accounts) => {
+    return Promise.resolve(api.post("/accounts/link/", {"accounts": accounts}));
+}
+
 // const getLinkOptions = () => {
 //     return Promise.resolve(api.get("/directory/link"));
 // }
@@ -26,5 +30,6 @@ export const APIService = {
     getAccounts,
     linkDirectory,
     getDirectories,
+    linkAccounts
     // getLinkOptions
 }
