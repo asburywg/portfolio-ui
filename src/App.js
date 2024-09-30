@@ -9,16 +9,19 @@ import Transactions from "./pages/Transactions"
 // import Retirement from "./pages/Retirement"
 import CashFlow from "./pages/CashFlow"
 // import TransactionsFull from "./pages/TransactionsFull"
+import SocketTest from './pages/SocketTest'
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Accounts");
+  const [activeItem, setActiveItem] = useState("Socket Example");
 
 
   const renderContent = () => {
     switch (activeItem) {
+        case "Socket Example":
+          return <SocketTest />;
         case "Accounts":
           return <AccountsPage />;
         case "Income":
@@ -73,6 +76,7 @@ function App() {
       <div className="flex">
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
+          <SidebarItem icon={Home} text="Socket Example" />
           <SidebarItem icon={Folder} text="Accounts" />
           <SidebarItem icon={CircleDollarSign} text="Income" />
           <SidebarItem icon={Banknote} text="Cash Flow" alert />
