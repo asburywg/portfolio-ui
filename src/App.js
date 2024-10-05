@@ -10,12 +10,13 @@ import Transactions from "./pages/Transactions"
 import CashFlow from "./pages/CashFlow"
 // import TransactionsFull from "./pages/TransactionsFull"
 import SocketTest from './pages/SocketTest'
+import SettingsPage from './pages/Settings'
 
 const NotImplementedComponent = () => <div>Not Implemented Component</div>;
 
 
 function App() {
-  const [activeItem, setActiveItem] = useState("Socket Example");
+  const [activeItem, setActiveItem] = useState("Settings");
 
 
   const renderContent = () => {
@@ -38,6 +39,8 @@ function App() {
         //   return <Retirement />;
         case "Cash Flow":
           return <CashFlow />;
+        case "Settings":
+          return <SettingsPage />;
         default:
           return <NotImplementedComponent />;
     }
@@ -76,11 +79,11 @@ function App() {
       <div className="flex">
         <Sidebar setActiveItem={setActiveItem} activeItem={activeItem}>
 
-          <SidebarItem icon={Home} text="Socket Example" />
           <SidebarItem icon={Folder} text="Accounts" />
+          {/* <SidebarItem icon={Home} text="Socket Example" />
           <SidebarItem icon={CircleDollarSign} text="Income" />
           <SidebarItem icon={Banknote} text="Cash Flow" alert />
-          <SidebarItem icon={Table} text="Transactions" alert />
+          <SidebarItem icon={Table} text="Transactions" alert /> */}
 
           {/* <SidebarItem icon={Home} text="Home" />
           <SidebarItem icon={Folder} text="File Summary" />
@@ -99,7 +102,7 @@ function App() {
             <SidebarItem icon={TreePalm} text="Retirement" alert />
           </SidebarGroup> */}
 
-          {/* <SidebarItem icon={Settings} text="Settings" bottom /> */}
+          <SidebarItem icon={Settings} text="Settings" bottom />
         
         </Sidebar>
 
